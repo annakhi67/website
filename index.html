@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Ticket Finder — prototype</title>
+<style>
+:root{--bg:#f3f5f9;--surface:#fff;--ink:#101828;--ink2:#4a5565;--ink3:#6a7282;--line:#e1e5ec;--blue:#0b3d91;--blue-tint:#e6edf9;--yellow:#ffd23f;--ok:#0a7a3d;--ok-tint:#dcf5e7;--warn:#9a4a00;--warn-tint:#fff1dd}
+*{box-sizing:border-box;margin:0;padding:0}html,body{height:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",Inter,"Segoe UI",system-ui,sans-serif;background:#cfd5df;color:var(--ink);font-size:15px;line-height:22px;display:flex;align-items:center;justify-content:center}
+.phone{width:393px;height:852px;max-height:100vh;background:var(--bg);border-radius:48px;overflow:hidden;position:relative;box-shadow:0 30px 80px rgba(20,30,60,.3),0 0 0 8px #12141a;display:flex;flex-direction:column}
+body.embed{background:transparent}body.embed .phone{box-shadow:none;border-radius:0;max-height:none;width:100%;height:100vh}
+@media(max-width:430px){body{background:var(--bg)}.phone{width:100%;height:100vh;border-radius:0;box-shadow:none}}
+.status{height:44px;flex:none;display:flex;justify-content:space-between;align-items:center;padding:0 28px;font-weight:600;font-size:14px}
+.screen{flex:1;display:none;flex-direction:column;overflow-y:auto;padding:8px 20px 28px}.screen.on{display:flex}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.back{width:44px;height:44px;border-radius:50%;background:var(--surface);border:1px solid var(--line);font-size:20px}
+h1{font-size:30px;line-height:36px;font-weight:800;letter-spacing:-.5px}h2{font-size:22px;line-height:28px;font-weight:800;letter-spacing:-.3px}
+.sub{color:var(--ink2)}.small{font-size:13px;line-height:18px;color:var(--ink2)}
+.card{background:var(--surface);border-radius:20px;border:1px solid var(--line);padding:16px}
+.stack{display:flex;flex-direction:column;gap:12px}.spacer{flex:1;min-height:14px}
+.btn{height:56px;border-radius:16px;background:var(--blue);color:#fff;font-weight:700;font-size:16px;width:100%;display:flex;align-items:center;justify-content:center;text-decoration:none}
+.btn.sec{background:var(--surface);color:var(--ink);border:1px solid #c7cdd8}
+.btn[disabled]{background:#e1e5ec;color:var(--ink2);cursor:not-allowed}
+.route{display:flex;gap:14px;align-items:stretch}
+.route .dots{display:flex;flex-direction:column;align-items:center;padding:6px 0}
+.route .dots i{width:12px;height:12px;border-radius:50%;border:3px solid var(--blue);display:block}.route .dots i.to{background:var(--blue)}.route .dots u{flex:1;width:2px;background:#b9c4d8;margin:3px 0}
+.route .f{flex:1}.route .f label{display:block;font-size:12px;color:var(--ink3)}.route .f b{display:block;font-size:17px;margin-bottom:10px}
+.dest{display:flex;width:100%;text-align:left;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 16px}
+.dest[aria-pressed=true]{border:2px solid var(--blue);background:var(--blue-tint)}
+.dest b{display:block}.dest span{font-size:13px;color:var(--ink2)}.dest .z{margin-left:auto;font-size:12px;font-weight:700;background:var(--blue-tint);color:var(--blue);border-radius:99px;padding:2px 10px}
+.step{display:flex;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:10px 12px}
+.step button{width:44px;height:44px;border-radius:12px;background:var(--blue-tint);color:var(--blue);font-size:22px;font-weight:700}
+.step button[disabled]{opacity:.4;cursor:not-allowed}.step b{font-size:22px}
+.best{border:2px solid var(--blue);background:#fff;position:relative}
+.tag{display:inline-block;font-size:12px;font-weight:800;background:var(--yellow);color:#3b2d00;border-radius:99px;padding:3px 12px}
+.price{font-size:34px;line-height:40px;font-weight:800}
+.why{background:var(--blue-tint);border-radius:12px;padding:10px 12px;font-size:14px;margin-top:10px}
+.opt{display:flex;gap:12px;align-items:center;width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 16px}
+.opt b{display:block}.opt span{font-size:13px;color:var(--ink2)}.opt .p{margin-left:auto;font-weight:800;white-space:nowrap}
+.opt.na{opacity:.6;cursor:not-allowed}
+.row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line)}.row:last-child{border:0}.row span{color:var(--ink2)}
+.banner{background:var(--warn-tint);border:1px solid #f3d9bd;border-radius:14px;padding:10px 14px;font-size:13px;line-height:18px}.banner b{color:var(--warn)}
+.sample{display:inline-block;font-size:12px;font-weight:700;background:#e1e5ec;color:var(--ink2);border-radius:99px;padding:2px 10px}
+.tk{background:var(--blue);color:#fff;border-radius:24px;padding:20px;text-align:center}
+.tk .qr{background:#fff;border-radius:16px;padding:14px;margin:14px auto;width:230px}
+.tk .qr svg{display:block;width:100%;height:auto}
+.tk b.big{font-size:22px;display:block}.tk .timer{font-size:15px;opacity:.95}
+.tk .demo{margin-top:10px;background:var(--yellow);color:#3b2d00;font-weight:800;border-radius:10px;padding:6px 10px;font-size:13px}
+.toast{position:absolute;left:20px;right:20px;bottom:24px;background:var(--ink);color:#fff;border-radius:14px;padding:14px 16px;display:none;text-align:center;font-weight:600}.toast.show{display:block}
+.pay{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.pay i{width:40px;height:40px;border-radius:10px;background:#12141a;display:flex;align-items:center;justify-content:center;color:#fff;font-style:normal;font-size:12px;font-weight:700}
+</style></head><body>
+<div class="phone"><div class="status"><span>9:41</span><span>●●● ▮</span></div>
+
+<section class="screen on" id="home">
+ <p class="small" style="font-weight:700;color:var(--blue);letter-spacing:.1em;text-transform:uppercase;margin-top:6px">Ticket Finder · concept</p>
+ <h1 style="margin:6px 0 16px">Where are you going?</h1>
+ <div class="card"><div class="route"><div class="dots"><i></i><u></u><i class="to"></i></div><div class="f"><label>From</label><b>Alexanderplatz</b><label>To</label><b id="toName" style="margin:0;color:var(--ink3)">Choose a destination</b></div></div></div>
+ <p class="small" style="margin:18px 0 8px;font-weight:700;color:var(--ink)">Example destinations <span class="sample">Demo</span></p>
+ <div class="stack" id="dests"></div>
+ <div class="spacer"></div>
+ <button class="btn" id="go1" disabled>Find the best ticket</button>
+ <button class="btn sec" data-go="all" style="margin-top:10px;height:48px">Browse all ticket types</button>
+</section>
+
+<section class="screen" id="result">
+ <div class="top"><button class="back" data-go="home" aria-label="Back">‹</button><div><p class="small" id="rtrip"></p><h2>Best ticket for you</h2></div></div>
+ <p class="small" style="margin-bottom:6px">How many trips today?</p>
+ <div class="step" style="margin-bottom:14px"><button id="minus" aria-label="Fewer trips">−</button><b id="n">1</b><button id="plus" aria-label="More trips">+</button></div>
+ <div class="card best" id="best"></div>
+ <p class="small" style="margin:16px 0 8px;font-weight:700;color:var(--ink)">Other options</p>
+ <div class="stack" id="others"></div>
+ <div class="spacer"></div>
+ <p class="small" style="margin-top:12px">Prices from the operator's 2026 price list. Check it for current prices.</p>
+</section>
+
+<section class="screen" id="pay">
+ <div class="top"><button class="back" data-go="result" aria-label="Back">‹</button><h2>Check and pay</h2></div>
+ <div class="card"><div id="sum"></div></div>
+ <p class="small" style="margin:16px 0 8px;font-weight:700;color:var(--ink)">Payment method</p>
+ <div class="pay"><i>Pay</i><div><b>Apple Pay</b><br><span class="small">Demo only, no payment is made</span></div></div>
+ <div class="spacer"></div>
+ <button class="btn" id="paybtn">Pay</button>
+</section>
+
+<section class="screen" id="ticket">
+ <div class="top"><h2>Your ticket</h2></div>
+ <div class="tk"><span class="small" style="color:#cfe0ff" id="tzone"></span><b class="big" id="tname"></b>
+  <div class="qr" aria-label="Demo QR code" id="qr"></div>
+  <div class="timer" id="timer"></div><div class="demo">DEMO · NOT VALID FOR TRAVEL</div></div>
+ <div class="card" style="margin-top:14px"><div class="row"><span>Valid from</span><b id="tfrom"></b></div><div class="row"><span>Valid until</span><b id="tuntil"></b></div><div class="row"><span>Route</span><b id="troute"></b></div></div>
+ <p class="small" style="margin-top:10px">Your ticket works offline. Keep it ready for inspection.</p>
+ <div class="spacer"></div>
+ <button class="btn sec" data-go="home" style="margin-top:14px">Buy another ticket</button>
+</section>
+
+<section class="screen" id="all">
+ <div class="top"><button class="back" data-go="home" aria-label="Back">‹</button><h2>All ticket types</h2></div>
+ <div class="banner" style="margin-bottom:12px"><b>Tip.</b> Not sure? Go back and enter where you are going. We pick the cheapest valid ticket.</div>
+ <div class="stack" id="alllist"></div>
+</section>
+<div class="toast" id="toast" role="status"></div></div>
+<script>
+const $=id=>document.getElementById(id),Q=s=>[...document.querySelectorAll(s)];
+const params=new URLSearchParams(location.search);if(params.has("embed"))document.body.classList.add("embed");
+const eur=v=>"€"+v.toFixed(2);
+// Example destinations: stops counted from Alexanderplatz (sample values)
+const DEST=[{n:"Brandenburger Tor",d:"S-Bahn · 3 stops",z:"AB",stops:3},{n:"Kottbusser Tor",d:"U-Bahn · 4 stops",z:"AB",stops:4},{n:"Potsdam Hauptbahnhof",d:"Regional train",z:"ABC",stops:9},{n:"BER Airport",d:"Regional train",z:"ABC",stops:9}];
+const PR={AB:{single:4.00,day:11.20,four:12.40,short:2.80,shortFour:7.80},ABC:{single:5.00,day:12.90}};
+let dest=null,n=1,chosen=null;
+function go(id){Q(".screen").forEach(s=>s.classList.toggle("on",s.id===id));$(id).scrollTop=0;if(id==="result")renderResult();if(id==="all")renderAll()}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-go]");if(b)go(b.dataset.go)});
+function toast(t){const e=$("toast");e.textContent=t;e.classList.add("show");clearTimeout(e._);e._=setTimeout(()=>e.classList.remove("show"),2200)}
+$("dests").innerHTML=DEST.map((d,i)=>`<button class="dest" data-i="${i}" aria-pressed="false"><span><b>${d.n}</b><span>${d.d}</span></span><span class="z">${d.z}</span></button>`).join("");
+Q(".dest").forEach(b=>b.onclick=()=>{dest=DEST[b.dataset.i];Q(".dest").forEach(x=>x.setAttribute("aria-pressed",x===b));$("toName").textContent=dest.n;$("toName").style.color="var(--ink)";$("go1").disabled=false});
+$("go1").onclick=()=>{n=1;go("result")};
+const effC=(n,price,unit)=>n>4?Math.ceil(n/4)*price:(n>=3?n*unit:999);
+function options(){const p=PR[dest.z],z=dest.z,o=[];
+ if(z==="AB"&&dest.stops<=3)o.push({k:"short",name:"Short trip",sub:"Up to 3 stops by S/U-Bahn, or 6 by bus/tram",unit:p.short,price:p.short*n,eff:p.short*n,txt:n>1?`${n} × ${eur(p.short)}`:"One trip"});
+ else if(z==="AB")o.push({k:"short",name:"Short trip",sub:"Not valid here: your trip has more than 3 stops",na:true});
+ if(z==="AB"&&dest.stops<=3)o.push({k:"shortFour",name:"4-trip short ticket",sub:"Four short trips (3 stops each). Use the rest later",unit:p.shortFour/4,price:Math.ceil(n/4)*p.shortFour,eff:effC(n,p.shortFour,p.shortFour/4),txt:`Pay ${eur(Math.ceil(n/4)*p.shortFour)} now, about ${eur(p.shortFour/4)} per trip`});
+ o.push({k:"single",name:"Single ticket",sub:"2 hours, one direction, zones "+z,unit:p.single,price:p.single*n,eff:p.single*n,txt:n>1?`${n} × ${eur(p.single)}`:"One trip"});
+ if(z==="AB")o.push({k:"four",name:"4-trip ticket",sub:"Four single trips. Use the rest later",unit:p.four/4,price:Math.ceil(n/4)*p.four,eff:effC(n,p.four,p.four/4),txt:`Pay ${eur(Math.ceil(n/4)*p.four)} now, about ${eur(p.four/4)} per trip`});
+ o.push({k:"day",name:"24-hour ticket",sub:"Unlimited trips for 24 hours, zones "+z,unit:p.day,price:p.day,eff:p.day,txt:"Unlimited for 24 hours"});
+ return o}
+function best(o){const v=o.filter(x=>!x.na);return v.reduce((a,b)=>b.eff<a.eff-0.001||(Math.abs(b.eff-a.eff)<0.001&&b.k==="day")?b:a)}
+function why(b,o){const s=o.filter(x=>!x.na&&x!==b).sort((a,c)=>a.eff-c.eff)[0];const save=s?s.eff-b.eff:0;
+ const base={short:"Your trip is short enough for the cheapest ticket.",single:"For this number of trips, single tickets cost the least.",four:"Four-trip tickets cost less per trip, and the rest stays valid for later.",shortFour:"Four short trips cost less per trip than single short trips, and the rest stays valid for later.",day:"With this many trips, one 24-hour ticket costs less than separate tickets."}[b.k];
+ return base+(save>0.01?` You save about ${eur(save)} compared with the next option.`:"")}
+function renderResult(){$("rtrip").textContent=`Alexanderplatz → ${dest.n} · zones ${dest.z}`;$("n").textContent=n;$("minus").disabled=n<=1;$("plus").disabled=n>=8;
+ const o=options(),b=best(o);
+ $("best").innerHTML=`<span class="tag">Best for you</span><h2 style="margin-top:10px">${b.name}</h2><p class="small">${b.sub}</p><div class="price" style="margin:8px 0 0">${eur(b.price)}</div><p class="small">${b.txt}</p><div class="why">${why(b,o)}</div><button class="btn" id="buy" style="margin-top:14px">Buy ${b.name.toLowerCase()}</button>`;
+ $("buy").onclick=()=>choose(b);
+ $("others").innerHTML=o.filter(x=>x!==b).map((x,i)=>`<button class="opt ${x.na?"na":""}" data-k="${x.k}" ${x.na?"aria-disabled=true":""}><span><b>${x.name}</b><span>${x.sub}</span></span>${x.na?"":`<span class="p">${eur(x.price)}</span>`}</button>`).join("");
+ Q("#others .opt:not(.na)").forEach(bt=>bt.onclick=()=>choose(o.find(x=>x.k===bt.dataset.k)))}
+$("minus").onclick=()=>{n=Math.max(1,n-1);renderResult()};$("plus").onclick=()=>{n=Math.min(8,n+1);renderResult()};
+function choose(o){chosen=o;$("sum").innerHTML=`<div class="row"><span>Ticket</span><b>${o.name}</b></div><div class="row"><span>Zones</span><b>${dest.z}</b></div><div class="row"><span>Route</span><b>Alexanderplatz → ${dest.n}</b></div><div class="row"><span>Trips today</span><b>${n}</b></div><div class="row"><span>Valid from</span><b>Now</b></div><div class="row"><span><b>Total</b></span><b style="font-size:20px">${eur(o.price)}</b></div>`;$("paybtn").textContent="Pay "+eur(o.price);go("pay")}
+// QR (demo pattern)
+function qr(seed){let s=seed,r=()=>(s=(s*1664525+1013904223)%4294967296)/4294967296,N=25,out=`<svg viewBox="0 0 ${N} ${N}" shape-rendering="crispEdges">`;const fin=(x,y)=>`<rect x="${x}" y="${y}" width="7" height="7" fill="#101828"/><rect x="${x+1}" y="${y+1}" width="5" height="5" fill="#fff"/><rect x="${x+2}" y="${y+2}" width="3" height="3" fill="#101828"/>`;
+ for(let y=0;y<N;y++)for(let x=0;x<N;x++){const inF=(x<8&&y<8)||(x>N-9&&y<8)||(x<8&&y>N-9);if(!inF&&r()>.52)out+=`<rect x="${x}" y="${y}" width="1" height="1" fill="#101828"/>`}
+ return out+fin(0,0)+fin(N-7,0)+fin(0,N-7)+"</svg>"}
+$("paybtn").onclick=()=>{const now=new Date(),k=chosen.k,hrs=k==="day"?24:2,until=new Date(now.getTime()+hrs*36e5);
+ const f=d=>d.toLocaleString("en-GB",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"});
+ $("tname").textContent=chosen.name;$("tzone").textContent="Zones "+dest.z;$("qr").innerHTML=qr(now.getMinutes()*97+n);$("tfrom").textContent=f(now);$("troute").textContent="→ "+dest.n;
+ clearInterval(go._t);
+ if(k==="short"){$("tuntil").textContent="End of this trip";$("timer").textContent="Valid for one short trip"}
+ else{$("tuntil").textContent=f(until);const tick=()=>{const m=Math.max(0,Math.round((until-new Date())/6e4));$("timer").textContent=k==="four"?"Each trip valid for 2 hours":`Valid for ${Math.floor(m/60)} h ${m%60} min`};tick();go._t=setInterval(tick,30000)}
+ go("ticket")};
+function renderAll(){$("alllist").innerHTML=[["Short trip","Up to 3 stops by S/U-Bahn or 6 by bus/tram, zones AB","€2.80"],["Single ticket","2 hours, one direction. AB €4.00, ABC €5.00","from €4.00"],["4-trip short ticket","Four short trips (3 stops by S/U-Bahn, 6 by bus/tram)","€7.80"],["4-trip ticket","Four single trips, zones AB. Use the rest later","€12.40"],["Connection ticket","One trip in zone C, in addition to a ticket AB","€2.40"],["24-hour ticket","Unlimited trips for 24 hours. AB €11.20, ABC €12.90","from €11.20"],["24-hour small group","Up to 5 people, 24 hours, unlimited trips","€35.30"],["Deutschlandticket","Monthly subscription for local and regional transport across Germany","€63 / month"]].map(a=>`<div class="opt" style="cursor:default"><span><b>${a[0]}</b><span>${a[1]}</span></span><span class="p">${a[2]}</span></div>`).join("")+'<p class="small" style="margin-top:8px">Prices from the 2026 price list of the operator, may change. Reduced fares exist and are not covered in this concept.</p>'}
+// embed presets
+const sc=params.get("screen");if(sc){dest=DEST[params.get("d")?+params.get("d"):0];n=params.get("n")?+params.get("n"):1;
+ if(sc==="home"){}else if(sc==="result"){go("result")}else if(sc==="pay"){chosen=options().find(x=>x.k===(params.get("k")||"short"))||best(options());choose(chosen)}else if(sc==="ticket"){chosen=best(options());choose(chosen);$("paybtn").click()}else go(sc);
+ if(sc==="home"){Q(".dest")[0].click()}}
+</script></body></html>
