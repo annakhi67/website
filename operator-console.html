@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PocketPower Operator Console — Anna Khinchuk</title>
+<meta name="description" content="Case study: a web dashboard for partner cafés that run PocketPower power bank stations, designed to answer one question fast: is everything working?">
+<link rel="stylesheet" href="operator-console-tokens.css">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:var(--font-family);color:var(--ink-900);background:#fff;font-size:17px;line-height:1.65;}
+  a{color:var(--orange-700);}
+  .wrap{max-width:860px;margin:0 auto;padding:0 24px;}
+  .wide{max-width:1100px;margin:0 auto;padding:0 24px;}
+  .topbar{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;max-width:1100px;margin:0 auto;font-size:14px;}
+  .topbar a{color:var(--ink-600);text-decoration:none;font-weight:600;}
+  .topbar a:hover{color:var(--ink-900);}
+  .hero{background:var(--sand-300);padding:56px 0 0;}
+  .hero h1{font-size:clamp(2.2rem,5vw,3.6rem);line-height:1.08;font-weight:900;letter-spacing:-.02em;}
+  .eyebrow{font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--orange-700);margin-bottom:12px;}
+  .hero p.lead{font-size:20px;color:var(--ink-800);max-width:640px;margin-top:16px;}
+  .hero img{display:block;width:100%;max-width:1100px;margin:48px auto 0;border-radius:24px 24px 0 0;}
+  .meta{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;padding:32px 0;border-bottom:1px solid var(--ink-100);}
+  .meta div b{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-500);margin-bottom:4px;}
+  section{padding:56px 0 8px;}
+  h2{font-size:30px;line-height:1.2;font-weight:900;margin-bottom:16px;letter-spacing:-.01em;}
+  h3{font-size:20px;font-weight:800;margin:28px 0 8px;}
+  p+p{margin-top:14px;} ul{margin:12px 0 0 22px;} li{margin:6px 0;}
+  .todo{background:#fff3b0;padding:1px 6px;border-radius:6px;font-weight:600;}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:24px 0;}
+  .stat{border:1px solid var(--ink-100);border-radius:20px;padding:20px;}
+  .stat b{display:block;font-size:34px;line-height:1.1;font-weight:900;}
+  .stat span{font-size:14px;color:var(--ink-600);}
+  .bad{color:var(--red-600);} .good{color:var(--green-700);}
+  table{width:100%;border-collapse:collapse;font-size:15px;margin-top:16px;}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--ink-100);}
+  th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-500);}
+
+  
+  .frame{position:relative;width:100%;max-width:1100px;margin:48px auto 0;border-radius:24px 24px 0 0;overflow:hidden;background:#fff;box-shadow:0 -8px 40px rgba(0,0,0,.12);aspect-ratio:1100/760;}
+  .frame iframe{position:absolute;top:0;left:0;width:1440px;height:995px;border:0;transform-origin:0 0;}
+  .links{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px;}
+  .links a{display:inline-block;padding:12px 22px;border-radius:9999px;background:var(--ink-900);color:#fff;text-decoration:none;font-weight:700;font-size:15px;}
+  .links a.alt{background:var(--ink-100);color:var(--ink-900);}
+  .note{background:var(--ink-100);border-radius:16px;padding:16px 20px;font-size:15px;margin-top:20px;}
+  footer{padding:72px 0 64px;color:var(--ink-500);font-size:14px;}
+  @media(max-width:760px){.meta{grid-template-columns:1fr 1fr;}.stats{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<div class="topbar"><a href="index.html">← Anna Khinchuk</a><a href="operator-console-prototype.html">Open the clickable prototype →</a></div>
+
+<header class="hero">
+  <div class="wide">
+    <div class="eyebrow">Case study · B2B dashboard</div>
+    <h1>PocketPower<br>Operator Console</h1>
+    <p class="lead">A web dashboard for the cafés that host PocketPower stations. It answers one question first: is everything working, and if not, what do I do?</p>
+    <div class="frame" id="frame"><iframe src="operator-console-prototype.html" title="Interactive prototype of the PocketPower operator console" loading="lazy"></iframe></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="meta">
+    <div><b>Role</b>UX/UI designer, solo</div>
+    <div><b>Timeline</b>October 2026</div>
+    <div><b>Tools</b>Figma, HTML/CSS/JS</div>
+    <div><b>Type</b>Concept project</div>
+  </div>
+
+  <section>
+    <h2>The problem</h2>
+    <p>PocketPower is a power bank rental app concept for Berlin. A rental app only works if the stations work, and the stations are hosted by partner cafés whose staff are busy with customers. They do not want to study a dashboard. They want to glance at it between orders.</p>
+    <p>The task I set myself: design the partner side of the product, starting from the situation that matters most, a station that stops working while customers are trying to rent from it.</p>
+    <div class="note"><b>Honest scope.</b> This is a concept. I did not interview operators, and every number in the screens is sample data. The design rests on assumptions about what a café owner needs (listed below) that I would test before building anything.</div>
+  </section>
+
+  <section>
+    <h2>Assumptions I designed around</h2>
+    <ul>
+      <li><b>Glanceable first.</b> Staff open the console for seconds, not minutes, so the page opens on status, not on reports.</li>
+      <li><b>Problems should find the user.</b> A broken station is shown as a banner at the top and in a short "Needs attention" list, instead of being hidden in a table.</li>
+      <li><b>Few people, little training.</b> Actions use plain words ("Mark as serviced") and a short checklist, not technical terms.</li>
+      <li><b>Revenue matters, but second.</b> One 7-day chart is enough on the overview.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Process</h2>
+    <h3>1. Pick the key task</h3>
+    <p>"Find the offline station and mark it as serviced." Everything on the overview exists to get to that task in two clicks: banner → station → checklist → done.</p>
+    <h3>2. Three screens</h3>
+    <ul>
+      <li><b>Overview.</b> Four KPIs (stations online, power banks available, rentals and revenue today), an alert banner for the offline station, a 7-day revenue chart and a "Needs attention" list.</li>
+      <li><b>Stations.</b> A searchable table with filter chips and counts. Sorted so stations that need attention come first. Includes an empty state for searches with no results.</li>
+      <li><b>Station detail.</b> The reason for the problem in plain words, a 3-step checklist, the last known state of every slot and an activity log.</li>
+    </ul>
+    <h3>3. Build on the design system</h3>
+    <p>I built the screens in Figma using the variables, text styles and radii from my <a href="design-system.html">PocketPower Design System</a>, so colors and type match the app. The dashboard has denser content than the app, which is a good test of whether the system holds up outside the mobile screens.</p>
+    <h3>4. Check contrast on the new screens</h3>
+    <p>I calculated contrast for every text pair. One failed: the red text in the "Offline" status badge, red <code>#dc2626</code> on light red <code>#fee2e2</code>, measured <b>3.95:1</b>, below the 4.5:1 WCAG AA requires for 12 px text. I added a darker red, <code>#b91c1c</code> (<b>5.30:1</b>), as a new token and used it for text in red badges. It should be added to the design system.</p>
+    <h3>5. Make it clickable</h3>
+    <p>I built the three screens as an HTML prototype to test the main task. The "Mark as serviced" button stays disabled until all three checks are ticked and says how many remain. After it is pressed, the station goes online, the banner disappears, the alert counter clears and the KPI changes from 11 / 12 to 12 / 12.</p>
+  </section>
+
+  <section>
+    <h2>Design decisions</h2>
+    <ul>
+      <li><b>Status is never color only.</b> Every status has a text label (Offline, Low stock, Check slot, Online) as well as a color.</li>
+      <li><b>One primary button per screen.</b> The orange button is the next best action: "View station", then "Mark as serviced".</li>
+      <li><b>Disabled with a reason.</b> The disabled button explains what is missing instead of leaving the user guessing.</li>
+      <li><b>Filters show counts.</b> "Offline 1" tells the user something is wrong before they click it.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>What I would test next</h2>
+    <ul>
+      <li>Interview 3 café staff about how they notice a problem today and what they do next. Replace my assumptions with their words.</li>
+      <li>Give 5 people the task "find the broken station and mark it as serviced" and measure time and errors.</li>
+      <li>Build the mobile version, since staff will often check it on a phone behind the counter.</li>
+      <li>Add the new red token to the design system and re-check the dark theme.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>What I learned</h2>
+    <p>A dashboard is easiest to get wrong by showing everything. Starting from one task made it clear what to remove from the overview. Checking contrast on a new set of screens also found a failure the app screens never had, so a design system needs testing on content it was not built for.</p>
+    <div class="links">
+      <a href="operator-console-prototype.html">Open the clickable prototype</a>
+      <a class="alt" href="design-system.html">Read the design system case</a>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap">Concept project. All figures are sample data. © Anna Khinchuk</div></footer>
+
+<script>
+  // scale the 1440px prototype to the frame width
+  const fr=document.getElementById('frame'),ifr=fr.querySelector('iframe');
+  function fit(){const s=fr.clientWidth/1440;ifr.style.transform='scale('+s+')';ifr.style.height=(fr.clientHeight/s)+'px';}
+  addEventListener('resize',fit);fit();
+</script>
+</body>
+</html>

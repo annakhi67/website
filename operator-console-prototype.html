@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PocketPower Operator Console — clickable prototype</title>
+<link rel="stylesheet" href="operator-console-tokens.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-family);background:var(--color-bg-subtle);color:var(--color-text-primary);font-size:14px;line-height:20px;letter-spacing:-.15px}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+:focus-visible{outline:3px solid var(--color-focus-ring);outline-offset:2px}
+.app{display:grid;grid-template-columns:248px 1fr;min-height:100vh;min-width:1100px}
+aside{background:var(--color-bg-surface);border-right:1px solid var(--color-border);padding:28px 20px;display:flex;flex-direction:column;gap:8px}
+.logo b{display:block;font-size:18px;line-height:28px;color:var(--color-text-brand);font-weight:700;letter-spacing:-.44px}
+.logo span{font-size:12px;color:var(--color-text-secondary)}
+nav{margin-top:24px;display:flex;flex-direction:column;gap:8px}
+.nav{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:16px;color:var(--color-text-secondary);text-align:left;width:100%}
+.nav i{width:8px;height:8px;border-radius:50%;background:var(--color-text-disabled)}
+.nav.on{background:var(--color-bg-brand-tint);color:var(--color-text-brand);font-weight:600}.nav.on i{background:var(--color-brand)}
+.nav em{margin-left:auto;font-style:normal;background:var(--color-error-fg);color:#fff;font-size:12px;font-weight:700;border-radius:99px;padding:0 7px}
+main{padding:32px;display:flex;flex-direction:column;gap:24px}
+h1{font-size:32px;line-height:40px;font-weight:700;letter-spacing:.37px}
+.sub{color:var(--color-text-secondary)}
+.head{display:flex;align-items:center;gap:16px}.head>div{flex:1}
+.btn{height:48px;padding:0 20px;border-radius:16px;font-weight:700;display:inline-flex;align-items:center;justify-content:center}
+.btn.p{background:var(--color-brand);color:var(--color-text-on-brand)}
+.btn.p:hover{filter:brightness(.95)}
+.btn.s{background:var(--color-bg-surface);border:1px solid var(--ink-300);font-weight:600}
+.btn[disabled]{background:var(--color-bg-subtle);color:var(--color-text-secondary);border:1px solid var(--color-border);cursor:not-allowed}
+.alert{display:flex;align-items:center;gap:16px;background:var(--color-error-bg);border-radius:16px;padding:16px 20px}
+.alert .dot{width:12px;height:12px;border-radius:50%;background:var(--color-error-fg)}.alert div{flex:1}.alert b{display:block}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.card{background:var(--color-bg-surface);border:1px solid var(--color-border);border-radius:24px;padding:20px}
+.kpi small{display:block;color:var(--color-text-secondary)}
+.kpi strong{display:block;font-size:36px;line-height:45px;font-weight:700;margin:8px 0}
+.kpi span{font-size:12px;font-weight:700}.ok{color:var(--color-success-fg)}.bad{color:var(--color-error-fg)}.mut{color:var(--color-text-secondary)}
+.low{display:grid;grid-template-columns:3fr 2fr;gap:16px}
+h3{font-size:18px;line-height:28px;font-weight:700;letter-spacing:-.44px;margin-bottom:16px}
+.bars{display:flex;align-items:flex-end;gap:20px;height:300px}.bar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:8px;font-size:12px;color:var(--color-text-secondary)}
+.bar div{width:44px;border-radius:8px;background:var(--color-bg-brand-tint)}.bar.today div{background:var(--color-brand)}
+.row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--color-border);width:100%;text-align:left}
+.row b{display:block}.row small{color:var(--color-text-secondary);font-size:12px}.row .grow{flex:1}
+.badge{font-size:12px;line-height:16px;font-weight:700;border-radius:99px;padding:4px 10px;white-space:nowrap}
+.b-ok{background:var(--color-success-bg);color:var(--color-success-fg)}
+.b-err{background:var(--color-error-bg);color:var(--color-error-fg-strong)}
+.b-warn{background:var(--color-bg-brand-tint);color:var(--color-text-brand)}
+.filters{display:flex;gap:12px;align-items:center}
+.search{width:320px;height:48px;border:1px solid var(--ink-300);border-radius:16px;padding:0 16px;font:inherit;background:var(--color-bg-surface)}
+.chip{height:44px;padding:0 16px;border-radius:99px;border:1px solid var(--ink-300);background:var(--color-bg-surface);font-weight:600}
+.chip[aria-pressed=true]{background:var(--color-text-primary);color:#fff;border-color:var(--color-text-primary)}
+table{width:100%;border-collapse:collapse}th{text-align:left;font-size:12px;color:var(--color-text-secondary);padding:12px 16px;background:var(--color-bg-subtle)}
+td{padding:0 16px;height:64px;border-bottom:1px solid var(--color-border)}
+tbody tr{cursor:pointer}tbody tr:hover{background:var(--color-bg-subtle)}tbody tr:focus-visible{outline-offset:-3px}
+td b{display:block}td small{font-size:12px;color:var(--color-text-secondary)}
+.tablecard{padding:0;overflow:hidden}
+.crumb{color:var(--color-text-secondary)}.crumb button{color:var(--color-text-secondary)}.crumb b{color:var(--color-text-primary);font-weight:600}
+.two{display:grid;grid-template-columns:3fr 2fr;gap:16px;align-items:start}
+.stack{display:flex;flex-direction:column;gap:16px}
+.diag{background:var(--color-error-bg);border-radius:24px;padding:24px}.diag.okk{background:var(--color-success-bg)}
+.check{display:flex;gap:12px;align-items:center;padding:6px 0;cursor:pointer}
+.check input{width:24px;height:24px;accent-color:var(--orange-700)}
+.slots{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.slot{background:var(--color-bg-subtle);border-radius:16px;padding:14px 16px}.slot small{display:block;font-size:12px;color:var(--color-text-secondary)}.slot b{display:block}.slot span{font-size:12px;font-weight:700}
+.ev{display:flex;gap:16px;padding:10px 0;border-bottom:1px solid var(--color-border)}.ev small{width:72px;font-weight:700;color:var(--color-text-secondary);font-size:12px;line-height:20px}
+.hint{font-size:12px;color:var(--color-text-secondary);margin-top:4px;text-align:right}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--color-text-primary);color:#fff;padding:14px 20px;border-radius:16px;box-shadow:var(--shadow-glass);display:none}
+.toast.show{display:block}
+.view{display:none;flex-direction:column;gap:24px}.view.on{display:flex}
+.tag{font-size:12px;color:var(--color-text-secondary)}
+</style></head><body>
+<div class="app">
+<aside>
+ <div class="logo"><b>PocketPower</b><span>Operator console</span></div>
+ <nav>
+  <button class="nav on" data-go="overview"><i></i>Overview</button>
+  <button class="nav" data-go="stations"><i></i>Stations</button>
+  <button class="nav" data-go="rentals"><i></i>Rentals</button>
+  <button class="nav" data-go="revenue"><i></i>Revenue</button>
+  <button class="nav" data-go="alerts"><i></i>Alerts<em id="alertCount">1</em></button>
+  <button class="nav" data-go="settings"><i></i>Settings</button>
+ </nav>
+ <p class="tag" style="margin-top:auto">Prototype · sample data only</p>
+</aside>
+<main>
+<!-- Overview -->
+<section class="view on" id="v-overview">
+ <div class="head"><div><h1>Good morning, Coffee Fellows</h1><p class="sub">Alexanderplatz · 12 stations · Sample data</p></div><button class="btn s">Export CSV</button></div>
+ <div class="alert" id="alertBox"><span class="dot"></span><div><b>Berlin-04 has been offline since 08:12</b><span class="sub">Customers cannot rent here. Last heartbeat 3 h ago.</span></div><button class="btn p" id="viewSt" style="height:44px">View station</button></div>
+ <div class="kpis">
+  <div class="card kpi"><small>Stations online</small><strong id="kOnline">11 / 12</strong><span class="bad" id="kOff">1 offline</span></div>
+  <div class="card kpi"><small>Power banks available</small><strong>74</strong><span class="mut">of 96 in stations</span></div>
+  <div class="card kpi"><small>Rentals today</small><strong>138</strong><span class="ok">+12% vs. last Monday</span></div>
+  <div class="card kpi"><small>Revenue today</small><strong>€214</strong><span class="ok">+€18 vs. last Monday</span></div>
+ </div>
+ <div class="low">
+  <div class="card"><h3>Revenue, last 7 days</h3><div class="bars" id="bars"></div></div>
+  <div class="card"><h3>Needs attention</h3><div id="attn"></div></div>
+ </div>
+</section>
+<!-- Stations -->
+<section class="view" id="v-stations">
+ <div class="head"><div><h1>Stations</h1><p class="sub" id="stSub">12 stations · 1 offline · Sample data</p></div><button class="btn s">Export CSV</button></div>
+ <div class="filters"><input class="search" id="q" placeholder="Search by name or ID" aria-label="Search stations"><div id="chips" style="display:flex;gap:12px"></div><span class="sub" style="margin-left:auto;font-weight:600">Sort: Needs attention first</span></div>
+ <div class="card tablecard"><table><thead><tr><th>Station</th><th>Status</th><th>Power banks</th><th>Rentals today</th><th>Last seen</th></tr></thead><tbody id="tbody"></tbody></table><p id="empty" class="sub" style="display:none;padding:32px;text-align:center">No stations match. Try another filter or clear the search.</p></div>
+</section>
+<!-- Detail -->
+<section class="view" id="v-detail">
+ <p class="crumb"><button data-go="stations">Stations</button> / <b>Berlin-04</b></p>
+ <div class="head"><div><h1 style="display:flex;gap:12px;align-items:center">Berlin-04 · Rosenthaler Platz <span class="badge b-err" id="dBadge">Offline</span></h1><p class="sub">Station ID PP-0004 · Installed in a partner café · Sample data</p></div>
+  <button class="btn s">Contact support</button>
+  <div><button class="btn p" id="serviced" disabled style="width:180px">Mark as serviced</button><p class="hint" id="hint">Complete the 3 checks first</p></div></div>
+ <div class="two">
+  <div class="stack">
+   <div class="diag" id="diag"><h3 style="margin-bottom:8px" id="dT">Offline since 08:12</h3><p class="sub" id="dP">No connection to the station for 3 h. Customers see this station as unavailable and cannot rent here.</p></div>
+   <div class="card" id="checks"><h3>Before you mark it as serviced</h3>
+    <label class="check"><input type="checkbox"> Restart the station (hold the power button for 5 s)</label>
+    <label class="check"><input type="checkbox"> Check that the network cable is plugged in</label>
+    <label class="check"><input type="checkbox"> Make a test rental and return</label></div>
+   <div class="card"><h3>Power banks in this station (last known)</h3><div class="slots" id="slots"></div></div>
+  </div>
+  <div class="card"><h3>Activity</h3><div id="act"></div></div>
+ </div>
+</section>
+
+<!-- Rentals -->
+<section class="view" id="v-rentals">
+ <div class="head"><div><h1>Rentals</h1><p class="sub">Today · 138 rentals · Sample data</p></div><button class="btn s">Export CSV</button></div>
+ <div class="card tablecard"><table><thead><tr><th>Time</th><th>Station</th><th>Power bank</th><th>Duration</th><th>Price</th></tr></thead><tbody id="rentBody"></tbody></table></div>
+</section>
+<!-- Revenue -->
+<section class="view" id="v-revenue">
+ <div class="head"><div><h1>Revenue</h1><p class="sub">Last 7 days · €1,438 · Sample data</p></div><button class="btn s">Export CSV</button></div>
+ <div class="kpis" style="grid-template-columns:repeat(3,1fr)">
+  <div class="card kpi"><small>This week</small><strong>€1,438</strong><span class="ok">+9% vs. previous week</span></div>
+  <div class="card kpi"><small>Average per day</small><strong>€205</strong><span class="mut">Best day: Saturday, €268</span></div>
+  <div class="card kpi"><small>Your share</small><strong>€431</strong><span class="mut">30% partner share (sample)</span></div>
+ </div>
+ <div class="card"><h3>Revenue by day</h3><div class="bars" id="bars2"></div></div>
+</section>
+<!-- Alerts -->
+<section class="view" id="v-alerts">
+ <div class="head"><div><h1>Alerts</h1><p class="sub" id="alSub">1 open · Sample data</p></div></div>
+ <div class="card" id="alList"></div>
+</section>
+<!-- Settings -->
+<section class="view" id="v-settings">
+ <div class="head"><div><h1>Settings</h1><p class="sub">Notifications and contact · Sample data</p></div></div>
+ <div class="card" style="max-width:640px">
+  <h3>Notify me when</h3>
+  <label class="check"><input type="checkbox" checked> A station goes offline</label>
+  <label class="check"><input type="checkbox" checked> A station has 2 or fewer power banks left</label>
+  <label class="check"><input type="checkbox"> A daily summary is ready</label>
+  <h3 style="margin-top:24px">Send alerts to</h3>
+  <input class="search" style="width:100%" value="cafe@example.com" aria-label="Alert email">
+  <div style="margin-top:20px"><button class="btn p" id="saveSet">Save changes</button></div>
+ </div>
+</section>
+</main></div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+const S=[["Berlin-04","Rosenthaler Platz","Offline","0 / 8",0,"3 h ago"],["Berlin-09","Ostbahnhof","Low stock","2 / 8",21,"1 min ago"],["Berlin-11","Gesundbrunnen","Check slot","7 / 8",14,"1 min ago"],["Berlin-01","Alexanderplatz","Online","8 / 8",23,"1 min ago"],["Berlin-02","Hackescher Markt","Online","6 / 8",17,"2 min ago"],["Berlin-03","Friedrichstraße","Online","5 / 8",19,"1 min ago"],["Berlin-05","Warschauer Straße","Online","8 / 8",12,"1 min ago"],["Berlin-06","Kottbusser Tor","Online","4 / 8",16,"1 min ago"],["Berlin-07","Potsdamer Platz","Online","8 / 8",11,"1 min ago"],["Berlin-08","Zoologischer Garten","Online","7 / 8",9,"3 min ago"],["Berlin-10","Schönhauser Allee","Online","6 / 8",18,"1 min ago"],["Berlin-12","Hauptbahnhof","Online","5 / 8",22,"1 min ago"]];
+const cls=s=>s==="Online"?"b-ok":s==="Offline"?"b-err":"b-warn";
+let filter="All",serviced=false;
+const $=id=>document.getElementById(id);
+function go(v){document.querySelectorAll(".view").forEach(e=>e.classList.toggle("on",e.id==="v-"+v));const navMap={detail:"stations"};document.querySelectorAll(".nav[data-go]").forEach(n=>n.classList.toggle("on",n.dataset.go===(navMap[v]||v)));window.scrollTo(0,0)}
+document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>{go(b.dataset.go)}));
+$("viewSt").onclick=()=>go("detail");
+function counts(){const off=S.filter(s=>s[2]==="Offline").length,low=S.filter(s=>s[2]==="Low stock").length;return{off,low,on:S.filter(s=>s[2]==="Online").length+S.filter(s=>s[2]!=="Offline").length-S.filter(s=>s[2]==="Online").length}}
+function renderChips(){const o=S.filter(s=>s[2]==="Offline").length,l=S.filter(s=>s[2]==="Low stock").length,on=S.length-o;
+ const L=[["All",S.length],["Online",on],["Offline",o],["Low stock",l]];
+ $("chips").innerHTML=L.map(([n,c])=>`<button class="chip" aria-pressed="${filter===n}" data-f="${n}">${n} ${c}</button>`).join("");
+ document.querySelectorAll("[data-f]").forEach(b=>b.onclick=()=>{filter=b.dataset.f;renderT()});
+ $("stSub").textContent=`12 stations · ${o} offline · Sample data`;}
+function renderT(){renderChips();const q=$("q").value.toLowerCase();
+ const rows=S.filter(s=>(filter==="All"||(filter==="Online"?s[2]!=="Offline":s[2]===filter))&&(s[0]+s[1]).toLowerCase().includes(q));
+ $("tbody").innerHTML=rows.map(s=>`<tr tabindex="0" data-id="${s[0]}"><td><b>${s[0]}</b><small>${s[1]}</small></td><td><span class="badge ${cls(s[2])}">${s[2]}</span></td><td>${s[3]}</td><td>${s[4]}</td><td class="${s[2]==="Offline"?"bad":""}">${s[5]}</td></tr>`).join("");
+ $("empty").style.display=rows.length?"none":"block";
+ document.querySelectorAll("#tbody tr").forEach(r=>{const open=()=>{if(r.dataset.id==="Berlin-04")go("detail");else toast("Prototype: only Berlin-04 has a detail page")};r.onclick=open;r.onkeydown=e=>{if(e.key==="Enter")open()}});}
+$("q").oninput=renderT;
+function renderOverview(){const o=S.filter(s=>s[2]==="Offline").length;
+ $("kOnline").textContent=(12-o)+" / 12";$("kOff").textContent=o?o+" offline":"All online";$("kOff").className=o?"bad":"ok";
+ $("alertBox").style.display=o?"flex":"none";$("alertCount").style.display=o?"":"none";
+ $("attn").innerHTML=S.filter(s=>s[2]!=="Online").map(s=>`<button class="row" data-open="${s[0]}"><span class="grow"><b>${s[0]}</b><small>${s[2]==="Offline"?"Offline since 08:12":s[2]==="Low stock"?"2 of 8 power banks left":"1 slot not charging"}</small></span><span class="badge ${cls(s[2])}">${s[2]}</span></button>`).join("")||'<p class="sub">Nothing needs attention.</p>';
+ document.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>{if(b.dataset.open==="Berlin-04")go("detail")});}
+const rev=[["Tue",150],["Wed",172],["Thu",160],["Fri",231],["Sat",268],["Sun",243],["Mon",214]];
+$("bars").innerHTML=rev.map(([d,v])=>`<div class="bar ${d==="Mon"?"today":""}">€${v}<div style="height:${Math.round(v/268*240)}px"></div>${d}</div>`).join("");
+const lv=[92,88,100,15,76,0,64,97];
+$("slots").innerHTML=lv.map((v,i)=>`<div class="slot"><small>Slot ${i+1}</small><b>#A2${11+i}</b><span class="${v<20?"bad":"ok"}">${v}%</span></div>`).join("");
+$("act").innerHTML=[["08:12","Connection lost"],["07:58","Rental ended · 1 h 12 min"],["07:41","Rental started"],["Yesterday","Serviced by Coffee Fellows staff"],["Yesterday","21 rentals · €38"]].map(([t,d])=>`<div class="ev"><small>${t}</small><span>${d}</span></div>`).join("");
+const cbs=[...document.querySelectorAll("#checks input")];
+function upd(){const all=cbs.every(c=>c.checked);$("serviced").disabled=!all||serviced;$("hint").textContent=serviced?"":all?"Ready":`Complete the ${cbs.filter(c=>!c.checked).length} remaining check${cbs.filter(c=>!c.checked).length>1?"s":""} first`}
+cbs.forEach(c=>c.onchange=upd);
+$("serviced").onclick=()=>{serviced=true;S[0][2]="Online";S[0][3]="8 / 8";S[0][5]="Just now";
+ $("dBadge").textContent="Online";$("dBadge").className="badge b-ok";$("diag").className="diag okk";$("dT").textContent="Back online";$("dP").textContent="Marked as serviced. Customers can rent here again.";
+ $("act").insertAdjacentHTML("afterbegin",'<div class="ev"><small>Now</small><span>Marked as serviced</span></div>');
+ $("serviced").disabled=true;$("hint").textContent="";renderOverview();renderT();renderAlerts();toast("Berlin-04 is back online")};
+function toast(m){const t=$("toast");t.textContent=m;t.classList.add("show");clearTimeout(t._);t._=setTimeout(()=>t.classList.remove("show"),2600)}
+
+$("bars2").innerHTML=rev.map(([d,v])=>`<div class="bar ${d==="Mon"?"today":""}">€${v}<div style="height:${Math.round(v/268*240)}px"></div>${d}</div>`).join("");
+const R=[["10:42","Berlin-01 · Alexanderplatz","#A205","Active","€1.00"],["10:31","Berlin-05 · Warschauer Straße","#A312","Active","€1.00"],["10:12","Berlin-02 · Hackescher Markt","#A118","32 min","€1.00"],["09:55","Berlin-03 · Friedrichstraße","#A230","1 h 05 min","€2.00"],["09:40","Berlin-07 · Potsdamer Platz","#A402","18 min","€1.00"],["09:21","Berlin-12 · Hauptbahnhof","#A507","2 h 10 min","€4.00"],["09:03","Berlin-01 · Alexanderplatz","#A203","45 min","€2.00"],["08:47","Berlin-10 · Schönhauser Allee","#A611","27 min","€1.00"]];
+$("rentBody").innerHTML=R.map(r=>`<tr style="cursor:default">${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("");
+function renderAlerts(){const o=S.filter(s=>s[2]!=="Online");$("alSub").textContent=o.length+" open · Sample data";
+ $("alList").innerHTML=o.map(s=>`<button class="row" data-open="${s[0]}"><span class="grow"><b>${s[0]} · ${s[1]}</b><small>${s[2]==="Offline"?"Offline since 08:12":s[2]==="Low stock"?"2 of 8 power banks left":"1 slot not charging"}</small></span><span class="badge ${cls(s[2])}">${s[2]}</span></button>`).join("")||'<p class="sub" style="padding:8px 0">No open alerts.</p>';
+ document.querySelectorAll("#alList [data-open]").forEach(b=>b.onclick=()=>{if(b.dataset.open==="Berlin-04")go("detail");else toast("Prototype: only Berlin-04 has a detail page")});}
+$("saveSet").onclick=()=>toast("Settings saved (prototype)");
+renderAlerts();renderOverview();renderT();upd();
+</script></body></html>

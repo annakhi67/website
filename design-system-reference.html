@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PocketPower Design System</title>
+<link rel="stylesheet" href="design-system-tokens.css">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--font-family);background:var(--color-bg-surface);color:var(--color-text-primary);font-size:var(--type-body-size);line-height:var(--type-body-line);}
+  .wrap{max-width:1040px;margin:0 auto;padding:48px 24px 96px;}
+  header.top{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;margin-bottom:48px;}
+  h1{font-size:var(--type-h1-size);line-height:var(--type-h1-line);font-weight:var(--weight-black);letter-spacing:var(--type-h1-track);}
+  h2{font-size:var(--type-h2-size);line-height:var(--type-h2-line);font-weight:var(--weight-black);margin:72px 0 8px;letter-spacing:var(--type-h2-track);}
+  h3{font-size:var(--type-title-size);line-height:var(--type-title-line);font-weight:var(--weight-black);margin:32px 0 12px;}
+  p.lead{color:var(--color-text-secondary);font-size:var(--type-body-lg-size);line-height:var(--type-body-lg-line);max-width:680px;margin-top:8px;}
+  p.note{color:var(--color-text-tertiary);font-size:var(--type-caption-size);margin-top:8px;}
+  .tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:9999px;margin-left:6px;vertical-align:middle;}
+  .tag.found{background:var(--ink-100);color:var(--ink-600);}
+  .tag.prop{background:var(--orange-100);color:var(--orange-700);}
+  nav.toc{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:8px;}
+  nav.toc a{color:var(--color-text-secondary);text-decoration:none;font-weight:600;font-size:13px;border-bottom:2px solid transparent;}
+  nav.toc a:hover{border-color:var(--orange-600);color:var(--color-text-primary);}
+  .theme-btn{border:1px solid var(--color-border);background:var(--color-bg-subtle);color:var(--color-text-primary);border-radius:9999px;padding:8px 16px;font-weight:600;cursor:pointer;font-family:inherit;}
+  .theme-btn:focus-visible,.btn:focus-visible,.input:focus-visible{outline:3px solid var(--color-focus-ring);outline-offset:2px;}
+
+  table{width:100%;border-collapse:collapse;margin-top:16px;font-size:13px;}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--color-border);vertical-align:top;}
+  th{color:var(--color-text-tertiary);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.04em;}
+  .sev{font-weight:700;font-size:12px;}
+  .sev.high{color:var(--red-600);} .sev.med{color:var(--orange-700);} .sev.low{color:var(--ink-500);}
+
+  .swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;}
+  .sw{border:1px solid var(--color-border);border-radius:var(--radius-md);overflow:hidden;background:var(--color-bg-surface);}
+  .sw .chip{height:64px;}
+  .sw .meta{padding:8px 10px;font-size:12px;}
+  .sw .meta b{display:block;font-size:12px;}
+  .sw .meta span{color:var(--color-text-tertiary);}
+  .cr{display:grid;grid-template-columns:1fr auto auto;gap:6px 16px;font-size:13px;margin-top:12px;max-width:640px;}
+  .pass{color:var(--green-700);font-weight:700;} .fail{color:var(--red-600);font-weight:700;}
+
+  .type-row{display:flex;align-items:baseline;gap:24px;border-bottom:1px solid var(--color-border);padding:12px 0;}
+  .type-row .spec{width:200px;flex-shrink:0;color:var(--color-text-tertiary);font-size:12px;}
+  .bars{display:flex;gap:16px;align-items:flex-end;flex-wrap:wrap;}
+  .bar{background:var(--orange-600);border-radius:4px;}
+  .box{width:72px;height:72px;background:var(--color-bg-subtle);border:1px solid var(--color-border);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;}
+  .elev{width:140px;height:80px;background:var(--color-bg-surface);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;}
+
+  .stage{background:var(--sand-300);border-radius:var(--radius-lg);padding:28px;display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start;}
+  [data-theme="dark"] .stage{background:var(--color-bg-app);}
+  .cell{display:flex;flex-direction:column;gap:8px;align-items:flex-start;}
+  .cell small{font-size:11px;color:var(--ink-600);font-weight:600;}
+  [data-theme="dark"] .cell small{color:var(--color-text-tertiary);}
+
+  /* ===== Components ===== */
+  .btn{font-family:inherit;border:0;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:var(--weight-black);transition:transform var(--duration-fast) var(--ease-standard),filter var(--duration-base),opacity var(--duration-base);}
+  .btn-lg{height:var(--control-lg);padding:0 32px;border-radius:var(--radius-md);font-size:var(--type-title-size);letter-spacing:var(--type-title-track);min-width:220px;}
+  .btn-md{height:var(--control-md);padding:0 20px;border-radius:var(--radius-md);font-size:var(--type-body-size);font-weight:var(--weight-bold);letter-spacing:var(--type-body-track);min-width:130px;}
+  .btn-primary{background:var(--gradient-brand);color:var(--color-text-on-brand);box-shadow:var(--shadow-3);}
+  .btn-teal{background:var(--teal-400);color:var(--color-text-on-teal);box-shadow:var(--shadow-2);}
+  .btn-neutral{background:var(--ink-100);color:var(--ink-900);box-shadow:var(--shadow-1);}
+  [data-theme="dark"] .btn-neutral{background:var(--color-bg-subtle);color:var(--color-text-primary);}
+  .btn-glass{background:rgba(255,255,255,.2);color:#fff;border:2px solid rgba(255,255,255,.3);border-radius:var(--radius-lg);box-shadow:var(--shadow-glass);height:72px;min-width:260px;font-size:var(--type-title-size);backdrop-filter:blur(8px);}
+  .btn:hover,.is-hover{filter:brightness(1.05);}
+  .btn:active,.is-pressed{transform:scale(.97);filter:brightness(.92);}
+  .btn[disabled],.is-disabled{background:var(--ink-100);color:var(--ink-400);box-shadow:none;cursor:not-allowed;filter:none;transform:none;}
+  .btn-glass[disabled]{background:rgba(255,255,255,.1);color:rgba(255,255,255,.5);}
+  .spin{width:18px;height:18px;border-radius:50%;border:3px solid rgba(60,22,0,.25);border-top-color:var(--ink-brown);animation:sp .8s linear infinite;}
+  @keyframes sp{to{transform:rotate(360deg);}}
+  @media (prefers-reduced-motion:reduce){.spin{animation-duration:2.4s;}.btn{transition:none;}}
+  .dark-bg{background:#3a2a1e;border-radius:var(--radius-lg);padding:20px;display:flex;gap:20px;flex-wrap:wrap;}
+
+  .icon-btn{width:var(--touch-min);height:var(--touch-min);border-radius:9999px;border:0;background:rgba(0,0,0,.35);color:#fff;box-shadow:var(--shadow-glass);cursor:pointer;font-size:18px;}
+  .card{background:var(--color-bg-surface);border-radius:var(--radius-lg);box-shadow:var(--shadow-3);padding:24px;width:320px;}
+  .card h4{font-size:var(--type-title-size);font-weight:var(--weight-black);letter-spacing:var(--type-title-track);margin-bottom:12px;}
+  .row{display:flex;justify-content:space-between;padding:6px 0;font-size:var(--type-body-size);}
+  .row span{color:var(--color-text-secondary);} .row b{font-weight:var(--weight-bold);}
+  .row.total{border-top:1px solid var(--color-border);margin-top:6px;padding-top:12px;}
+  .total-panel{margin-top:16px;border:2px solid rgba(236,128,43,.2);background:var(--orange-100);border-radius:var(--radius-md);padding:16px 18px;display:flex;justify-content:space-between;align-items:center;}
+  .total-panel b{font-size:var(--type-display-size);line-height:48px;font-weight:var(--weight-black);color:var(--color-text-brand);letter-spacing:var(--type-display-track);}
+  .badge{display:inline-flex;align-items:center;gap:6px;font-size:var(--type-caption-size);font-weight:var(--weight-bold);padding:2px 10px 2px 8px;border-radius:9999px;height:22px;}
+  .badge.open{background:var(--color-success-bg);color:var(--color-success-fg);}
+  .badge.open i{width:6px;height:6px;border-radius:50%;background:var(--color-success-dot);}
+  .badge.closed{background:var(--ink-100);color:var(--ink-600);} .badge.closed i{width:6px;height:6px;border-radius:50%;background:var(--ink-400);}
+  .count{width:22px;height:22px;border-radius:50%;background:#fff;border:2px solid var(--orange-600);color:var(--orange-700);font-size:var(--type-micro-size);font-weight:var(--weight-black);display:inline-flex;align-items:center;justify-content:center;box-shadow:var(--shadow-2);}
+  .banner{display:flex;gap:14px;align-items:center;background:rgba(255,255,255,.6);border:2px solid rgba(255,255,255,.8);border-radius:var(--radius-md);padding:14px 18px;width:340px;font-weight:var(--weight-semibold);color:var(--ink-800);}
+  .banner .ic{width:36px;height:36px;border-radius:var(--radius-md);background:var(--orange-600);display:flex;align-items:center;justify-content:center;color:var(--ink-brown);font-weight:900;}
+  .banner.err{background:var(--red-100);border-color:#fecaca;} .banner.err .ic{background:var(--red-600);color:#fff;}
+  .sheet{background:var(--color-bg-surface);border-radius:var(--radius-xl) var(--radius-xl) 0 0;box-shadow:var(--shadow-sheet);padding:12px 24px 24px;width:340px;}
+  .sheet .handle{width:40px;height:5px;border-radius:9999px;background:var(--ink-300);margin:0 auto 16px;}
+  .sheet h4{font-size:var(--type-title-lg-size);line-height:var(--type-title-lg-line);font-weight:var(--weight-black);letter-spacing:var(--type-title-lg-track);}
+  .sheet p{color:var(--color-text-secondary);margin:4px 0 8px;}
+  .sheet .avail{color:var(--color-text-brand);font-weight:var(--weight-bold);font-size:var(--type-body-lg-size);}
+  .field{display:flex;flex-direction:column;gap:6px;width:320px;}
+  .field label{font-weight:var(--weight-bold);font-size:var(--type-body-size);color:var(--ink-800);}
+  .input{height:var(--control-lg);border-radius:var(--radius-md);border:2px solid var(--ink-300);background:#fff;padding:0 16px;font-size:var(--type-body-lg-size);font-family:inherit;color:var(--ink-900);}
+  .input.is-focus,.input:focus{border-color:var(--ink-900);outline:none;box-shadow:0 0 0 3px rgba(16,24,40,.15);}
+  .input.is-error{border-color:var(--red-600);}
+  .help{font-size:var(--type-caption-size);color:var(--ink-600);} .help.err{color:var(--red-600);font-weight:600;}
+
+  .dd{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px;}
+  .dd>div{border-radius:var(--radius-md);padding:16px 18px;border:1px solid var(--color-border);}
+  .dd .do{border-left:4px solid var(--green-500);} .dd .dont{border-left:4px solid var(--red-600);}
+  .dd h5{font-size:12px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;}
+  .dd ul{padding-left:18px;color:var(--color-text-secondary);} .dd li{margin:4px 0;}
+  @media (max-width:760px){.dd{grid-template-columns:1fr;}header.top{flex-direction:column;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <div>
+    <h1>PocketPower Design System</h1>
+    <p class="lead">Foundations, components and rules extracted from the PocketPower app screens, plus an audit of what was inconsistent and how it was fixed.</p>
+    <p class="note">Scope: values extracted from 4 of ~12 PocketPower screens (Scan QR, Scan QR with input, Map + sheet, Return success). Items marked <span class="tag prop">proposed</span> are my suggestions, items marked <span class="tag found">found</span> exist in the original design.</p>
+  </div>
+  <button class="theme-btn" id="themeBtn" aria-pressed="false">Toggle dark theme</button>
+</header>
+
+<nav class="toc" aria-label="Sections">
+  <a href="#audit">Audit</a><a href="#colors">Color</a><a href="#type">Typography</a><a href="#space">Spacing &amp; shape</a><a href="#components">Components</a><a href="#rules">Usage rules</a>
+</nav>
+
+<!-- ============ AUDIT ============ -->
+<h2 id="audit">Audit: what was inconsistent</h2>
+<p class="lead">The Figma file had no variables, so every color, radius and shadow was set by hand. These are the issues that came out of comparing the screens, in order of impact.</p>
+<table>
+  <tr><th>Issue</th><th>Found in design</th><th>Fix</th><th>Impact</th></tr>
+  <tr><td>White text on brand orange is low contrast</td><td>White on #ec802b = 2.73:1; on the amber end of the gradient = 1.65:1</td><td>Use dark brown text <code>#3c1600</code> (already used on the Continue button): 5.88:1 on orange, 9.75:1 on amber</td><td class="sev high">High (WCAG)</td></tr>
+  <tr><td>Orange as small text on white</td><td>#ec802b on white = 2.73:1 ("8 power banks available")</td><td>New text token <code>orange-700 #b4530a</code>: 5.02:1</td><td class="sev high">High (WCAG)</td></tr>
+  <tr><td>White text on teal button</td><td>White on #66bcb4 = 2.23:1 ("Reserve")</td><td>Ink text <code>#101828</code> on teal: 7.96:1</td><td class="sev high">High (WCAG)</td></tr>
+  <tr><td>Light-gray caption text</td><td>#99a1af on white = 2.60:1 ("Tap here to see more details")</td><td>Use <code>ink-500 #6a7282</code> for text (4.84:1); keep ink-400 for disabled/decorative only</td><td class="sev med">Medium</td></tr>
+  <tr><td>Same component, different sizes</td><td>Primary CTA 60px and 68px; secondary buttons 44px and 64px</td><td>Three control heights: 60 / 48 / 44</td><td class="sev med">Medium</td></tr>
+  <tr><td>Two different orange gradients</td><td>Buttons: #ec802b → #edc55b. Map markers: #ec802b → #f5a855</td><td>Keep one brand gradient; marker may use a flat brand color</td><td class="sev med">Medium</td></tr>
+  <tr><td>Near-duplicate values</td><td>Radius 14 and 16; sheet shadow .12 and .15; handle 4px and 6px; icon tile #ed8f36 vs #ec802b</td><td>Merged to radius 16, shadow .12, handle 5px, brand orange</td><td class="sev low">Low</td></tr>
+  <tr><td>Text too small</td><td>10px marker counts</td><td>Minimum 11px (<code>type-micro</code>)</td><td class="sev low">Low</td></tr>
+  <tr><td>Input without label, state or error</td><td>"Write code here|" placeholder with the caret drawn as a text character</td><td>Real input component with label, focus and error states (see Components)</td><td class="sev med">Medium</td></tr>
+  <tr><td>No state coverage</td><td>Buttons only shown in default state</td><td>Default, hover, pressed, disabled and loading defined for every interactive component</td><td class="sev med">Medium</td></tr>
+</table>
+
+<!-- ============ COLOR ============ -->
+<h2 id="colors">Color</h2>
+<p class="lead">Brand is orange and teal on warm sand. Text colors come from a neutral ink scale.</p>
+
+<h3>Brand &amp; surfaces</h3>
+<div class="swatches">
+  <div class="sw"><div class="chip" style="background:var(--orange-600)"></div><div class="meta"><b>orange-600 <span class="tag found">found</span></b><span>#ec802b · brand</span></div></div>
+  <div class="sw"><div class="chip" style="background:var(--orange-700)"></div><div class="meta"><b>orange-700 <span class="tag prop">proposed</span></b><span>#b4530a · text</span></div></div>
+  <div class="sw"><div class="chip" style="background:var(--amber-400)"></div><div class="meta"><b>amber-400 <span class="tag found">found</span></b><span>#edc55b · gradient end</span></div></div>
+  <div class="sw"><div class="chip" style="background:var(--gradient-brand)"></div><div class="meta"><b>gradient-brand</b><span>buttons, icon tiles</span></div></div>
+  <div class="sw"><div class="chip" style="background:var(--teal-400)"></div><div class="meta"><b>teal-400 <span class="tag found">found</span></b><span>#66bcb4 · secondary</span></div></div>
+  <div class="sw"><div class="chip" style="background:var(--teal-700)"></div><div class="meta"><b>teal-700 <span class="tag prop">proposed</span></b><span>#1f7a72 · text/icons</span></div></div>
+  <div class="sw"><div class="chip" style="background:var(--sand-300)"></div><div class="meta"><b>sand-300 <span class="tag found">found</span></b><span>#e8ccad · app background</span></div></div>
+  <div class="sw"><div class="chip" style="background:var(--orange-100)"></div><div class="meta"><b>orange-100 <span class="tag prop">proposed</span></b><span>#fdf3ea · tint</span></div></div>
+</div>
+
+<h3>Neutrals &amp; status</h3>
+<div class="swatches">
+  <div class="sw"><div class="chip" style="background:var(--ink-900)"></div><div class="meta"><b>ink-900</b><span>#101828 · primary text</span></div></div>
+  <div class="sw"><div class="chip" style="background:var(--ink-800)"></div><div class="meta"><b>ink-800</b><span>#364153</span></div></div>
+  <div class="sw"><div class="chip" style="background:var(--ink-600)"></div><div class="meta"><b>ink-600</b><span>#4a5565 · secondary text</span></div></div>
+  <div class="sw"><div class="chip" style="background:var(--ink-500)"></div><div class="meta"><b>ink-500</b><span>#6a7282 · tertiary text</span></div></div>
+  <div class="sw"><div class="chip" style="background:var(--ink-400)"></div><div class="meta"><b>ink-400</b><span>#99a1af · disabled only</span></div></div>
+  <div class="sw"><div class="chip" style="background:var(--ink-300)"></div><div class="meta"><b>ink-300</b><span>#d1d5dc · borders, handle</span></div></div>
+  <div class="sw"><div class="chip" style="background:var(--ink-100)"></div><div class="meta"><b>ink-100</b><span>#f3f4f6 · subtle surface</span></div></div>
+  <div class="sw"><div class="chip" style="background:var(--ink-brown)"></div><div class="meta"><b>ink-brown</b><span>#3c1600 · text on brand</span></div></div>
+  <div class="sw"><div class="chip" style="background:var(--green-500)"></div><div class="meta"><b>green-500 / 700 / 100</b><span>success dot / text / bg</span></div></div>
+  <div class="sw"><div class="chip" style="background:var(--red-600)"></div><div class="meta"><b>red-600 / 100 <span class="tag prop">proposed</span></b><span>error</span></div></div>
+</div>
+
+<h3>Contrast (WCAG 2.2): before and after</h3>
+<div class="cr">
+  <b>Pair</b><b>Ratio</b><b>AA</b>
+  <span>White on orange #ec802b, 18px bold (before)</span><span>2.73</span><span class="fail">Fail</span>
+  <span>Ink-brown on orange, 18px bold (after)</span><span>5.88</span><span class="pass">Pass</span>
+  <span>Orange #ec802b on white, 14px (before)</span><span>2.73</span><span class="fail">Fail</span>
+  <span>Orange-700 on white, 14px (after)</span><span>5.02</span><span class="pass">Pass</span>
+  <span>White on teal #66bcb4, 14px bold (before)</span><span>2.23</span><span class="fail">Fail</span>
+  <span>Ink-900 on teal, 14px bold (after)</span><span>7.96</span><span class="pass">Pass</span>
+  <span>Gray #99a1af on white, 12px (before)</span><span>2.60</span><span class="fail">Fail</span>
+  <span>Ink-500 on white, 12px (after)</span><span>4.84</span><span class="pass">Pass</span>
+  <span>Orange #ec802b on sand, 48px display (before)</span><span>1.78</span><span class="fail">Fail</span>
+  <span>Orange-700 on sand, 48px display (after, large text needs 3:1)</span><span>3.27</span><span class="pass">Pass</span>
+</div>
+<p class="note">Ratios computed from the sRGB values with the WCAG relative-luminance formula.</p>
+
+<!-- ============ TYPE ============ -->
+<h2 id="type">Typography</h2>
+<p class="lead">One family, Inter, in four weights. Heavy (Black) weight for titles and numbers, Bold for labels, Regular for body.</p>
+<div>
+  <div class="type-row"><div class="spec">Display · 48/48 · Black</div><div style="font-size:48px;line-height:48px;font-weight:900;letter-spacing:.35px">€4.00</div></div>
+  <div class="type-row"><div class="spec">H1 · 36/45 · Black</div><div style="font-size:36px;line-height:45px;font-weight:900;letter-spacing:.37px">Power bank returned!</div></div>
+  <div class="type-row"><div class="spec">H2 · 32/40 · Black</div><div style="font-size:32px;line-height:40px;font-weight:900;letter-spacing:.37px">Scan the station QR</div></div>
+  <div class="type-row"><div class="spec">Title large · 20/28 · Black</div><div style="font-size:20px;line-height:28px;font-weight:900;letter-spacing:-.45px">Coffee Fellows Alexanderplatz</div></div>
+  <div class="type-row"><div class="spec">Title · 18/28 · Black</div><div style="font-size:18px;line-height:28px;font-weight:900;letter-spacing:-.44px">Nearest station</div></div>
+  <div class="type-row"><div class="spec">Body large · 16/24 · Regular/Bold</div><div style="font-size:16px;line-height:24px;letter-spacing:-.31px">Pick a power bank and start charging.</div></div>
+  <div class="type-row"><div class="spec">Body · 14/20 · Regular/Bold</div><div style="font-size:14px;line-height:20px;letter-spacing:-.15px">Alexanderplatz 4 · 2 min away</div></div>
+  <div class="type-row"><div class="spec">Caption · 12/16 · Regular/Bold</div><div style="font-size:12px;line-height:16px">Inside the cafe · near the entrance</div></div>
+  <div class="type-row"><div class="spec">Micro · 11/15 · Black <span class="tag prop">proposed</span></div><div style="font-size:11px;line-height:15px;font-weight:900">12 (was 10px)</div></div>
+</div>
+
+<!-- ============ SPACE ============ -->
+<h2 id="space">Spacing, radius, elevation</h2>
+<h3>Spacing scale (4px base)</h3>
+<div class="bars">
+  <div><div class="bar" style="width:4px;height:32px"></div><p class="note">1 · 4</p></div>
+  <div><div class="bar" style="width:8px;height:32px"></div><p class="note">2 · 8</p></div>
+  <div><div class="bar" style="width:12px;height:32px"></div><p class="note">3 · 12</p></div>
+  <div><div class="bar" style="width:16px;height:32px"></div><p class="note">4 · 16</p></div>
+  <div><div class="bar" style="width:24px;height:32px"></div><p class="note">6 · 24 (screen margin)</p></div>
+  <div><div class="bar" style="width:32px;height:32px"></div><p class="note">8 · 32</p></div>
+  <div><div class="bar" style="width:48px;height:32px"></div><p class="note">12 · 48</p></div>
+</div>
+<h3>Radius</h3>
+<div class="bars">
+  <div><div class="box" style="border-radius:16px">16</div><p class="note">md · buttons</p></div>
+  <div><div class="box" style="border-radius:24px">24</div><p class="note">lg · cards</p></div>
+  <div><div class="box" style="border-radius:32px 32px 0 0">32</div><p class="note">xl · sheets</p></div>
+  <div><div class="box" style="border-radius:9999px">pill</div><p class="note">badges, icon buttons</p></div>
+</div>
+<h3>Elevation</h3>
+<div class="stage" style="gap:24px">
+  <div class="elev" style="box-shadow:var(--shadow-1)">shadow-1</div>
+  <div class="elev" style="box-shadow:var(--shadow-2)">shadow-2</div>
+  <div class="elev" style="box-shadow:var(--shadow-3)">shadow-3</div>
+  <div class="elev" style="box-shadow:var(--shadow-sheet)">shadow-sheet</div>
+</div>
+
+<!-- ============ COMPONENTS ============ -->
+<h2 id="components">Components</h2>
+<p class="lead">Every interactive component is shown in all states. Use the theme toggle at the top to preview the dark theme.</p>
+
+<h3>Button · primary (large)</h3>
+<div class="stage">
+  <div class="cell"><button class="btn btn-lg btn-primary">Scan QR</button><small>Default</small></div>
+  <div class="cell"><button class="btn btn-lg btn-primary is-hover">Scan QR</button><small>Hover</small></div>
+  <div class="cell"><button class="btn btn-lg btn-primary is-pressed">Scan QR</button><small>Pressed</small></div>
+  <div class="cell"><button class="btn btn-lg btn-primary" disabled>Scan QR</button><small>Disabled</small></div>
+  <div class="cell"><button class="btn btn-lg btn-primary" aria-busy="true"><span class="spin"></span>Scanning</button><small>Loading</small></div>
+</div>
+
+<h3>Button · secondary (medium)</h3>
+<div class="stage">
+  <div class="cell"><button class="btn btn-md btn-teal">Reserve</button><small>Teal · default</small></div>
+  <div class="cell"><button class="btn btn-md btn-teal is-pressed">Reserve</button><small>Teal · pressed</small></div>
+  <div class="cell"><button class="btn btn-md btn-teal" disabled>Reserve</button><small>Teal · disabled</small></div>
+  <div class="cell"><button class="btn btn-md btn-neutral">Route</button><small>Neutral · default</small></div>
+  <div class="cell"><button class="btn btn-md btn-neutral is-hover">Route</button><small>Neutral · hover</small></div>
+  <div class="cell"><button class="btn btn-md btn-neutral" disabled>Route</button><small>Neutral · disabled</small></div>
+</div>
+
+<h3>Button · glass (over camera / photo only)</h3>
+<div class="dark-bg">
+  <div class="cell"><button class="btn btn-glass">Enter code manually</button><small style="color:#d1d5dc">Default</small></div>
+  <div class="cell"><button class="btn btn-glass is-pressed">Enter code manually</button><small style="color:#d1d5dc">Pressed</small></div>
+  <div class="cell"><button class="btn btn-glass" disabled>Enter code manually</button><small style="color:#d1d5dc">Disabled</small></div>
+  <div class="cell"><button class="icon-btn" aria-label="Back">←</button><small style="color:#d1d5dc">Icon button 44px</small></div>
+</div>
+
+<h3>Text input</h3>
+<div class="stage">
+  <div class="field"><label for="i1">Station code</label><input class="input" id="i1" placeholder="e.g. A204"><span class="help">Find it on the station screen.</span><small style="color:var(--ink-600);font-weight:600;font-size:11px">Default</small></div>
+  <div class="field"><label for="i2">Station code</label><input class="input is-focus" id="i2" value="A20"><span class="help">Find it on the station screen.</span><small style="color:var(--ink-600);font-weight:600;font-size:11px">Focus</small></div>
+  <div class="field"><label for="i3">Station code</label><input class="input is-error" id="i3" value="A2" aria-invalid="true" aria-describedby="e3"><span class="help err" id="e3">Code not found. Check the number on the station.</span><small style="color:var(--ink-600);font-weight:600;font-size:11px">Error</small></div>
+</div>
+
+<h3>Card · payment summary</h3>
+<div class="stage">
+  <div class="card">
+    <h4>Payment summary</h4>
+    <div class="row"><span>Power bank ID</span><b>#A204</b></div>
+    <div class="row"><span>Started at</span><b>19:54</b></div>
+    <div class="row"><span>Returned at</span><b>21:47</b></div>
+    <div class="row"><span>Rental time</span><b>1h 53m</b></div>
+    <div class="row total"><span>Rate</span><b>€1 / 30 min</b></div>
+    <div class="total-panel"><span style="font-weight:700;color:var(--ink-800)">Total paid</span><b>€4.00</b></div>
+  </div>
+  <div class="cell" style="gap:16px">
+    <div class="banner"><div class="ic">✉</div>Receipt sent to your email</div>
+    <div class="banner err"><div class="ic">!</div>Payment failed. Try another card.</div>
+    <small>Banner · info and error</small>
+  </div>
+</div>
+
+<h3>Bottom sheet · station</h3>
+<div class="stage" style="align-items:flex-end">
+  <div class="sheet">
+    <div class="handle"></div>
+    <h4>Coffee Fellows Alexanderplatz</h4>
+    <p>Alexanderplatz 4 · 2 min away</p>
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px"><span class="avail">8 power banks available</span><span class="badge open"><i></i>Open</span></div>
+    <button class="btn btn-lg btn-primary" style="width:100%">Scan QR</button>
+  </div>
+  <div class="cell" style="gap:14px">
+    <div style="display:flex;gap:12px;align-items:center"><span class="badge open"><i></i>Open</span><span class="badge closed"><i></i>Closed</span></div>
+    <small>Badge · status</small>
+    <div style="display:flex;gap:12px"><span class="count">3</span><span class="count">12</span></div>
+    <small>Map marker counter (11px minimum)</small>
+  </div>
+</div>
+
+<!-- ============ RULES ============ -->
+<h2 id="rules">Usage rules</h2>
+<div class="dd">
+  <div class="do"><h5>Do</h5><ul>
+    <li>Use dark brown text on orange and amber surfaces.</li>
+    <li>Use <code>orange-700</code> when orange is the text color.</li>
+    <li>Keep one primary button per screen.</li>
+    <li>Keep touch targets at least 44px.</li>
+    <li>Show every state: default, hover/pressed, disabled, loading, error.</li>
+  </ul></div>
+  <div class="dont"><h5>Don't</h5><ul>
+    <li>Put white text on orange, amber or teal.</li>
+    <li>Use ink-400 for any text a user needs to read.</li>
+    <li>Use glass buttons on plain backgrounds (camera/photo overlays only).</li>
+    <li>Invent new radii, shadows or button heights: pick from the scale.</li>
+    <li>Use the 48px display style anywhere except the total price.</li>
+  </ul></div>
+</div>
+
+</div>
+<script>
+  const btn = document.getElementById('themeBtn');
+  btn.addEventListener('click', () => {
+    const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    document.documentElement.setAttribute('data-theme', dark ? 'light' : 'dark');
+    btn.setAttribute('aria-pressed', String(!dark));
+    btn.textContent = dark ? 'Toggle dark theme' : 'Toggle light theme';
+  });
+</script>
+</body>
+</html>

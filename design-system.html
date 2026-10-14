@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PocketPower Design System — Anna Khinchuk</title>
+<meta name="description" content="Case study: turning hand-made app screens into a design system with tokens, components and accessible color.">
+<meta property="og:title" content="PocketPower Design System — case study">
+<meta property="og:image" content="design-system-cover.png">
+<link rel="stylesheet" href="design-system-case-tokens.css">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:var(--font-family);color:var(--ink-900);background:#fff;font-size:17px;line-height:1.65;}
+  a{color:var(--orange-700);}
+  .wrap{max-width:860px;margin:0 auto;padding:0 24px;}
+  .wide{max-width:1100px;margin:0 auto;padding:0 24px;}
+  .topbar{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;max-width:1100px;margin:0 auto;font-size:14px;}
+  .topbar a{color:var(--ink-600);text-decoration:none;font-weight:600;}
+  .topbar a:hover{color:var(--ink-900);}
+  .hero{background:var(--sand-300);padding:56px 0 0;}
+  .hero h1{font-size:clamp(2.2rem,5vw,3.6rem);line-height:1.08;font-weight:900;letter-spacing:-.02em;}
+  .eyebrow{font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--orange-700);margin-bottom:12px;}
+  .hero p.lead{font-size:20px;color:var(--ink-800);max-width:640px;margin-top:16px;}
+  .hero img{display:block;width:100%;max-width:1100px;margin:48px auto 0;border-radius:24px 24px 0 0;}
+  .meta{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;padding:32px 0;border-bottom:1px solid var(--ink-100);}
+  .meta div b{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-500);margin-bottom:4px;}
+  section{padding:56px 0 8px;}
+  h2{font-size:30px;line-height:1.2;font-weight:900;margin-bottom:16px;letter-spacing:-.01em;}
+  h3{font-size:20px;font-weight:800;margin:28px 0 8px;}
+  p+p{margin-top:14px;} ul{margin:12px 0 0 22px;} li{margin:6px 0;}
+  .todo{background:#fff3b0;padding:1px 6px;border-radius:6px;font-weight:600;}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:24px 0;}
+  .stat{border:1px solid var(--ink-100);border-radius:20px;padding:20px;}
+  .stat b{display:block;font-size:34px;line-height:1.1;font-weight:900;}
+  .stat span{font-size:14px;color:var(--ink-600);}
+  .bad{color:var(--red-600);} .good{color:var(--green-700);}
+  table{width:100%;border-collapse:collapse;font-size:15px;margin-top:16px;}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--ink-100);}
+  th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-500);}
+
+  /* before / after */
+  .ba{background:#e8e5df;border-radius:28px;padding:40px;display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:24px;}
+  .ba .col{display:flex;flex-direction:column;align-items:center;gap:12px;}
+  .ba .label{font-weight:900;letter-spacing:.06em;font-size:14px;}
+  .sheet{background:#fff;border-radius:32px 32px 0 0;box-shadow:0 -8px 16px rgba(0,0,0,.12);padding:28px 24px;width:100%;max-width:390px;display:flex;flex-direction:column;gap:12px;}
+  .sheet h4{font-size:20px;line-height:28px;font-weight:900;letter-spacing:-.45px;}
+  .sheet .addr{font-size:14px;color:var(--ink-600);}
+  .sheet .avail{font-size:16px;font-weight:700;}
+  .cta{height:60px;border-radius:16px;background:var(--gradient-brand);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px;box-shadow:var(--shadow-3);}
+  .row2{display:flex;gap:8px;} .row2 div{flex:1;height:48px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;}
+  .hint{font-size:12px;}
+  .before .avail{color:#ec802b;} .before .cta{color:#fff;} .before .teal{background:#66bcb4;color:#fff;} .before .hint{color:#99a1af;}
+  .after .avail{color:var(--orange-700);} .after .cta{color:var(--ink-brown);} .after .teal{background:var(--teal-400);color:var(--ink-900);} .after .hint{color:var(--ink-500);}
+  .row2 .grey{background:var(--ink-100);color:var(--ink-900);}
+  .ba .note{font-size:13px;font-weight:700;text-align:center;}
+  .links{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px;}
+  .links a{display:inline-block;padding:12px 22px;border-radius:9999px;background:var(--ink-900);color:#fff;text-decoration:none;font-weight:700;font-size:15px;}
+  .links a.alt{background:var(--ink-100);color:var(--ink-900);}
+  footer{padding:72px 0 64px;color:var(--ink-500);font-size:14px;}
+  @media(max-width:760px){.meta{grid-template-columns:1fr 1fr;}.stats{grid-template-columns:1fr;}.ba{grid-template-columns:1fr;padding:24px;}}
+</style>
+</head>
+<body>
+
+<div class="topbar"><a href="index.html">← Anna Khinchuk</a><a href="design-system-reference.html">Design system reference →</a></div>
+
+<header class="hero">
+  <div class="wide">
+    <div class="eyebrow">Case study · Design system</div>
+    <h1>PocketPower<br>Design System</h1>
+    <p class="lead">I turned a set of hand-made app screens into a system of tokens, components and rules, and fixed the accessibility problems the audit uncovered.</p>
+    <img src="design-system-cover.png" alt="PocketPower Design System cover: contrast improved from 2.73 to 5.88 to 1, with sample buttons and color swatches">
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="meta">
+    <div><b>Role</b>UX/UI designer, solo</div>
+    <div><b>Timeline</b>October 2026</div>
+    <div><b>Tools</b>Figma, HTML/CSS</div>
+    <div><b>Type</b>Concept project</div>
+  </div>
+
+  <section>
+    <h2>The problem</h2>
+    <p>PocketPower is a power bank rental app concept for Berlin. After designing the core flows, I noticed the screens looked coherent but had been built by hand: no variables, no shared components. Before adding more screens I wanted to know how consistent the design really was.</p>
+    <p>I compared four screens (Scan QR, Scan QR with code input, Map with bottom sheet, Return success) and found:</p>
+    <ul>
+      <li><b>Contrast failures.</b> White text on the brand orange measured 2.73:1, on the amber end of the gradient 1.65:1, and on teal 2.23:1. WCAG AA requires 4.5:1 for normal text and 3:1 for large text.</li>
+      <li><b>Inconsistent components.</b> The primary button was 60 px tall on one screen and 68 px on another. Secondary buttons were 44 px and 64 px.</li>
+      <li><b>Duplicate values.</b> Two different orange gradients, radii of 14 and 16 px, two sheet shadow strengths.</li>
+      <li><b>Missing states.</b> Buttons and the code input existed only in their default state.</li>
+    </ul>
+    <p>I expected a few small inconsistencies. What surprised me was that the brand orange itself, the color I had picked to make buttons feel friendly, failed the contrast requirement with white text.</p>
+  </section>
+
+  <section>
+    <h2>Process</h2>
+    <h3>1. Audit</h3>
+    <p>I extracted colors, type, spacing, radii and shadows from the screens and compared them side by side. I pulled the actual values out of the Figma screens (colors, type sizes, radii, shadows, button heights) into one list, grouped near-duplicates, and marked everything that existed in more than one version.</p>
+    <h3>2. Contrast check</h3>
+    <p>I calculated the WCAG contrast ratio of every text and background pair using the relative-luminance formula, then tested alternatives from the existing palette first.</p>
+    <h3>3. Decisions</h3>
+    <ul>
+      <li><b>Text on brand orange:</b> dark brown <code>#3c1600</code>, a color already used on the Continue button. 5.88:1 instead of white at 2.73:1.</li>
+      <li><b>Orange as text on light surfaces:</b> a darker orange <code>#b4530a</code>, 5.02:1.</li>
+      <li><b>Text on teal:</b> ink <code>#101828</code>, 7.96:1.</li>
+      <li><b>Sizes and shapes:</b> three button heights (60 / 48 / 44 px) and four radii (16 / 24 / 32 / pill).</li>
+    </ul>
+    <p>I used dark text on orange instead of darkening the orange, because the bright orange is the brand. A darker orange is used only where orange is text, so the buttons keep their color. Brown text came from the existing palette, so no new color was introduced for buttons. Merging sizes and radii kept the scale small enough to remember.</p>
+    <h3>4. Build</h3>
+    <p>I built the foundations as Figma variables (primitive colors, a semantic Color collection with Light and Dark modes, spacing, radius), text and shadow styles, and components with states: default, hover, pressed and disabled for buttons, plus focus and error for the input. The reference page also shows a loading state. The same tokens are exported as CSS and JSON, and documented on a reference page with usage rules.</p>
+  </section>
+
+  <section>
+    <h2>Before and after</h2>
+    <p>The same station sheet, built from the original values and from the new tokens.</p>
+    <div class="ba" aria-label="Before and after comparison of the station sheet">
+      <div class="col before">
+        <div class="label bad">BEFORE</div>
+        <div class="sheet">
+          <h4>Coffee Fellows Alexanderplatz</h4>
+          <div class="addr">Alexanderplatz 4 · 2 min away</div>
+          <div class="avail">8 power banks available</div>
+          <div class="cta">Scan QR</div>
+          <div class="row2"><div class="teal">Reserve</div><div class="grey">Route</div></div>
+          <div class="hint">Tap here to see more details</div>
+        </div>
+        <div class="note bad">White on orange 2.73:1 · orange text 2.73:1 · white on teal 2.23:1 · caption 2.60:1</div>
+      </div>
+      <div class="col after">
+        <div class="label good">AFTER</div>
+        <div class="sheet">
+          <h4>Coffee Fellows Alexanderplatz</h4>
+          <div class="addr">Alexanderplatz 4 · 2 min away</div>
+          <div class="avail">8 power banks available</div>
+          <div class="cta">Scan QR</div>
+          <div class="row2"><div class="teal">Reserve</div><div class="grey">Route</div></div>
+          <div class="hint">Tap here to see more details</div>
+        </div>
+        <div class="note good">Text on orange 5.88:1 · orange text 5.02:1 · teal button 7.96:1 · caption 4.84:1</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Result</h2>
+    <div class="stats">
+      <div class="stat"><b class="bad">2.73 <span>→</span> <span class="good" style="font-size:34px;font-weight:900">5.88</span></b><span>contrast of button text on brand orange</span></div>
+      <div class="stat"><b>2 <span>→</span> 1</b><span>primary button heights (60 and 68 px merged to 60)</span></div>
+      <div class="stat"><b>1 <span>→</span> 4</b><span>states per button in the Figma library (default, hover, pressed, disabled)</span></div>
+    </div>
+    <table>
+      <tr><th>Check</th><th>Before</th><th>After</th></tr>
+      <tr><td>White on orange, 18px bold</td><td class="bad">2.73</td><td class="good">5.88 (brown text)</td></tr>
+      <tr><td>Orange text on white, 14px</td><td class="bad">2.73</td><td class="good">5.02</td></tr>
+      <tr><td>White on teal, 14px bold</td><td class="bad">2.23</td><td class="good">7.96 (ink text)</td></tr>
+      <tr><td>Caption gray on white, 12px</td><td class="bad">2.60</td><td class="good">4.84</td></tr>
+    </table>
+    <p style="margin-top:20px">I have not yet tested the new colors with users. The ratios come from calculation.</p>
+    <div class="links">
+      <a href="design-system-reference.html">Open design system reference</a>
+      <a class="alt" href="https://www.figma.com/design/hnSiu9hThpD0h2p71WPnQO" target="_blank" rel="noopener">View Figma file</a>
+    </div>
+  </section>
+
+  <section>
+    <h2>What I learned</h2>
+    <p>Brand color and legibility pull in different directions, and the fix was to separate the two: orange stays as a fill, a darker orange is used for text. Naming tokens by role (text/brand, text/on-brand) instead of by color made these decisions easier to see. Next time I would set up the tokens before designing the second screen, not after the fifth.</p>
+  </section>
+
+  <section>
+    <h2>Next steps</h2>
+    <ul>
+      <li>Audit the remaining PocketPower screens (this audit covered four).</li>
+      <li>Test the new button colors with 3-5 people outdoors in bright light.</li>
+      <li>Build the remaining components (cards, bottom sheet) in the Figma library.</li>
+    </ul>
+  </section>
+</main>
+
+<footer><div class="wrap">© 2026 Anna Khinchuk · <a href="mailto:anna.khinchuk@gmail.com">anna.khinchuk@gmail.com</a> · <a href="https://www.linkedin.com/in/anna-khinchuk-7b4118404">LinkedIn</a></div></footer>
+</body>
+</html>

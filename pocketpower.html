@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PocketPower: power bank rental app — Anna Khinchuk</title>
+<meta name="description" content="Case study: a power bank rental app concept for Berlin, from finding a station to paying after the return.">
+<meta property="og:title" content="PocketPower: power bank rental app">
+<meta property="og:image" content="pocketpower-cover-poster.jpg">
+<link rel="stylesheet" href="pocketpower-tokens.css">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:var(--font-family);color:var(--ink-900);background:#fff;font-size:17px;line-height:1.65;}
+  a{color:var(--orange-700);}
+  .wrap{max-width:860px;margin:0 auto;padding:0 24px;}
+  .wide{max-width:1100px;margin:0 auto;padding:0 24px;}
+  .topbar{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;max-width:1100px;margin:0 auto;font-size:14px;}
+  .topbar a{color:var(--ink-600);text-decoration:none;font-weight:600;}
+  .topbar a:hover{color:var(--ink-900);}
+  .hero{background:var(--sand-300);padding:56px 0 0;}
+  .hero h1{font-size:clamp(2.2rem,5vw,3.6rem);line-height:1.08;font-weight:900;letter-spacing:-.02em;}
+  .eyebrow{font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--orange-700);margin-bottom:12px;}
+  .hero p.lead{font-size:20px;color:var(--ink-800);max-width:640px;margin-top:16px;}
+  .hero img{display:block;width:100%;max-width:1100px;margin:48px auto 0;border-radius:24px 24px 0 0;}
+  .meta{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;padding:32px 0;border-bottom:1px solid var(--ink-100);}
+  .meta div b{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-500);margin-bottom:4px;}
+  section{padding:56px 0 8px;}
+  h2{font-size:30px;line-height:1.2;font-weight:900;margin-bottom:16px;letter-spacing:-.01em;}
+  h3{font-size:20px;font-weight:800;margin:28px 0 8px;}
+  p+p{margin-top:14px;} ul{margin:12px 0 0 22px;} li{margin:6px 0;}
+  .todo{background:#fff3b0;padding:1px 6px;border-radius:6px;font-weight:600;}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:24px 0;}
+  .stat{border:1px solid var(--ink-100);border-radius:20px;padding:20px;}
+  .stat b{display:block;font-size:34px;line-height:1.1;font-weight:900;}
+  .stat span{font-size:14px;color:var(--ink-600);}
+  .bad{color:var(--red-600);} .good{color:var(--green-700);}
+  table{width:100%;border-collapse:collapse;font-size:15px;margin-top:16px;}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--ink-100);}
+  th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-500);}
+
+  
+  .hero video{display:block;width:100%;max-width:1100px;margin:48px auto 0;border-radius:24px 24px 0 0;aspect-ratio:16/10;object-fit:cover;background:#f6e2c4;}
+  .flow{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:36px 24px;margin:32px 0 8px;align-items:start;}
+  .flow figure{margin:0;}
+  .flow img{display:block;width:100%;height:auto;border-radius:34px;border:7px solid #12141a;background:#12141a;box-shadow:0 18px 40px rgba(60,22,0,.18);}
+  .flow figcaption{margin-top:14px;font-size:14px;line-height:1.45;color:var(--ink-600);}
+  .flow figcaption b{display:block;color:var(--ink-900);font-size:15px;margin-bottom:2px;}
+  .flow .tall img{border:0;background:none;box-shadow:none;border-radius:0;}
+  .stage{background:var(--sand-300);border-radius:28px;padding:40px 24px;margin:24px 0;}
+  .stage .flow{margin:0;}
+  .links{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px;}
+  .links a{display:inline-block;padding:12px 22px;border-radius:9999px;background:var(--ink-900);color:#fff;text-decoration:none;font-weight:700;font-size:15px;}
+  .links a.alt{background:var(--ink-100);color:var(--ink-900);}
+  .note{background:var(--ink-100);border-radius:16px;padding:16px 20px;font-size:15px;margin-top:20px;}
+  .swatches{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0;}
+  .sw{width:120px;border-radius:16px;overflow:hidden;border:1px solid var(--ink-100);font-size:12px;}
+  .sw i{display:block;height:56px;} .sw span{display:block;padding:8px 10px;line-height:1.35;}
+  footer{padding:72px 0 64px;color:var(--ink-500);font-size:14px;}
+  @media(max-width:760px){.meta{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+
+<div class="topbar"><a href="index.html">← Anna Khinchuk</a><a href="design-system.html">Design system case →</a></div>
+
+<header class="hero">
+  <div class="wide">
+    <div class="eyebrow">Case study · Mobile app</div>
+    <h1>PocketPower</h1>
+    <p class="lead">A power bank rental app concept for Berlin. Find a station, scan, unlock, return anywhere, and always know the price.</p>
+    <video src="pocketpower-cover-loop.mp4" poster="pocketpower-cover-poster.jpg" autoplay muted loop playsinline aria-label="Looping preview of PocketPower app screens"></video>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="meta">
+    <div><b>Role</b>UX/UI designer, solo</div>
+    <div><b>Timeline</b>2026</div>
+    <div><b>Tools</b>Figma</div>
+    <div><b>Type</b>Concept project</div>
+  </div>
+
+  <section>
+    <h2>The idea</h2>
+    <p>Your phone dies when you are away from a charger, and you need power now. PocketPower lets you rent a power bank from a station in a partner café and return it to any station in the city.</p>
+    <p>I set one goal for the design: a person who is already stressed about a low battery should get from "I need power" to "I am charging" in a few taps, with no surprises about price.</p>
+    <div class="note"><b>Honest scope.</b> This is a student concept. I have not tested it with users yet, and the stations, prices and places are examples.</div>
+  </section>
+
+  <section>
+    <h2>The flow</h2>
+    <p>Eleven screens in four steps: get in, find a station, rent, return.</p>
+    <h3>1. Get in</h3>
+    <div class="stage"><div class="flow"><figure class=""><img src="pocketpower-welcome.webp" alt="Welcome screen of the PocketPower app" loading="lazy"><figcaption><b>Welcome</b>Says what the app does in one line, with a single primary action.</figcaption></figure><figure class=""><img src="pocketpower-signup.webp" alt="Sign up screen of the PocketPower app" loading="lazy"><figcaption><b>Sign up</b>Apple, Google or email. Access stays fast and familiar.</figcaption></figure></div></div>
+    <p>The first screen explains the idea instantly with a playful visual identity. The sign-up screen keeps registration short, and a note about data use sits where people look before they tap.</p>
+    <h3>2. Find a station</h3>
+    <div class="stage"><div class="flow"><figure class=""><img src="pocketpower-map.webp" alt="Home map screen of the PocketPower app" loading="lazy"><figcaption><b>Home map</b>The map stays visible while you look for a station. The sheet shows the nearest one.</figcaption></figure><figure class=""><img src="pocketpower-station-selected.webp" alt="Station selected screen of the PocketPower app" loading="lazy"><figcaption><b>Station selected</b>Tap a pin: name, distance, available power banks and the next action.</figcaption></figure><figure class="tall"><img src="pocketpower-station-expanded.webp" alt="Expanded sheet screen of the PocketPower app" loading="lazy"><figcaption><b>Expanded sheet</b>Pull up for the details: what is inside, reserve for 10 minutes, directions.</figcaption></figure></div></div>
+    <p>The map stays visible while users explore stations, and a bottom sheet reveals details in steps: a short summary first, the full information only when asked. This keeps the map useful and the first view calm.</p>
+    <h3>3. Rent</h3>
+    <div class="stage"><div class="flow"><figure class=""><img src="pocketpower-scan.webp" alt="Scan screen of the PocketPower app" loading="lazy"><figcaption><b>Scan</b>Scan the station QR, or type the code if the camera is not an option.</figcaption></figure><figure class=""><img src="pocketpower-confirm.webp" alt="Confirm screen of the PocketPower app" loading="lazy"><figcaption><b>Confirm</b>The price, the power bank and the payment method are visible before you start.</figcaption></figure><figure class=""><img src="pocketpower-unlocked.webp" alt="Unlocked screen of the PocketPower app" loading="lazy"><figcaption><b>Unlocked</b>A clear success state: take the power bank, rental details below.</figcaption></figure></div></div>
+    <p>After scanning, the user confirms the price and starts the rental manually. Three decisions shaped this flow: <b>the price is shown upfront</b> (€1 per 30 minutes, €10 per day maximum), <b>the payment method is visible</b> before the start, and <b>the rental starts only when the user taps "Start rental"</b>, never automatically.</p>
+    <h3>4. Return</h3>
+    <div class="stage"><div class="flow"><figure class=""><img src="pocketpower-return-map.webp" alt="Return screen of the PocketPower app" loading="lazy"><figcaption><b>Return</b>The map switches to stations with free slots.</figcaption></figure><figure class=""><img src="pocketpower-return-scan.webp" alt="Scan to return screen of the PocketPower app" loading="lazy"><figcaption><b>Scan to return</b>A hint says what to do after scanning: insert the power bank into an empty slot.</figcaption></figure><figure class=""><img src="pocketpower-paid.webp" alt="Paid screen of the PocketPower app" loading="lazy"><figcaption><b>Paid</b>Time, rate and total in one summary. The receipt goes to email.</figcaption></figure></div></div>
+    <p>Returning mirrors renting, so there is little to learn: a map of stations with free slots, a scan, and a summary of time and cost.</p>
+  </section>
+
+  <section>
+    <h2>Visual identity</h2>
+    <p>A warm palette of orange and amber, with teal as the second color on a sand background, and Inter as the typeface. The brand gradient (orange to amber) is reserved for the main action on each screen, so the eye always knows where to go next.</p>
+    <div class="swatches">
+      <div class="sw"><i style="background:#ec802b"></i><span><b>Orange</b><br>#ec802b</span></div>
+      <div class="sw"><i style="background:#edc55b"></i><span><b>Amber</b><br>#edc55b</span></div>
+      <div class="sw"><i style="background:#66bcb4"></i><span><b>Teal</b><br>#66bcb4</span></div>
+      <div class="sw"><i style="background:#e8ccad"></i><span><b>Sand</b><br>#e8ccad</span></div>
+      <div class="sw"><i style="background:#101828"></i><span style="color:#101828"><b>Ink</b><br>#101828</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What I would improve</h2>
+    <p>Looking at the finished flow, I see four things I would fix next:</p>
+    <ul>
+      <li><b>Placeholder photo.</b> The confirm screen has an "Add station photo" box. It needs a real photo of the station or should be removed so it does not take up the top third of the screen.</li>
+      <li><b>Overlapping home indicator.</b> On the confirm screen the home indicator sits on top of the payment card. The content needs extra bottom padding.</li>
+      <li><b>Contrast.</b> White text on the orange gradient is below the 4.5:1 WCAG AA level. I audited this and proposed fixes in the <a href="design-system.html">design system case</a>.</li>
+      <li><b>A long expanded sheet.</b> The expanded station sheet holds a lot. I would test whether "Reserve" and "Get directions" belong there or on a separate step.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>What I would test</h2>
+    <ul>
+      <li>Give 5 people the task "rent a power bank and return it" and watch where they hesitate.</li>
+      <li>Ask whether the price, shown on the confirm screen, is clear enough or should appear on the map sheet already.</li>
+      <li>Check the screens outdoors in bright light.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>More from this project</h2>
+    <p>The same product, seen from two other sides: a system of tokens and components behind the app, and the dashboard for the cafés that host the stations.</p>
+    <div class="links">
+      <a href="design-system.html">Design system case</a>
+      <a class="alt" href="operator-console.html">Operator console case</a>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap">Concept project. © Anna Khinchuk</div></footer>
+
+<script>
+/* Reliable muted autoplay: play when visible, pause when hidden, retry after first interaction */
+(function(){
+  var vids=[].slice.call(document.querySelectorAll("video[autoplay]"));
+  if(!vids.length)return;
+  var reduce=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function tryPlay(v){
+    if(reduce)return;
+    v.muted=true;v.defaultMuted=true;v.setAttribute("muted","");v.playsInline=true;
+    var p=v.play();if(p&&p.catch)p.catch(function(){});
+  }
+  vids.forEach(function(v){v.muted=true;v.removeAttribute("autoplay");v.preload="auto";
+    v.addEventListener("canplay",function(){if(v._vis)tryPlay(v)});
+    v.addEventListener("stalled",function(){v.load()});
+    v.addEventListener("pause",function(){if(v._vis&&!v.ended&&!reduce&&document.visibilityState==="visible")setTimeout(function(){if(v.paused&&v._vis)tryPlay(v)},300)});
+  });
+  if("IntersectionObserver" in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){var v=e.target;v._vis=e.isIntersecting;if(e.isIntersecting)tryPlay(v);else v.pause()})},{threshold:.2});
+    vids.forEach(function(v){io.observe(v)});
+  }else{vids.forEach(function(v){v._vis=true;tryPlay(v)})}
+  ["touchstart","click","scroll","keydown"].forEach(function(ev){addEventListener(ev,function(){vids.forEach(function(v){if(v._vis&&v.paused)tryPlay(v)})},{passive:true,once:false})});
+  document.addEventListener("visibilitychange",function(){if(document.visibilityState==="visible")vids.forEach(function(v){if(v._vis)tryPlay(v)})});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anmeldung Assistant — Anna Khinchuk</title>
+<meta name="description" content="Case study: a mobile app concept that guides newcomers through registering their address in Berlin and applying for a residence permit.">
+<style>
+:root{--bg:#faf8f5;--ink:#14181f;--ink2:#505a68;--ink3:#7a8494;--line:#e9e3da;--teal:#1b6e67;--tint:#e4f1ef;--warm:#f6f1ea;--orange:#a34a05;}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter","Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--teal)}
+.nav{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:14px 32px;background:rgba(250,248,245,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);font-size:14px}
+.nav a{color:var(--ink2);text-decoration:none;font-weight:600}.nav a:hover{color:var(--ink)}
+.nav .r{display:flex;gap:22px}
+.hero{padding:80px 32px 0;max-width:1180px;margin:0 auto}
+.eyebrow{font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--teal);margin-bottom:18px}
+h1{font-size:clamp(2.6rem,6.5vw,5rem);line-height:1.02;font-weight:800;letter-spacing:-.035em;max-width:900px}
+.lead{font-size:clamp(1.1rem,2vw,1.4rem);line-height:1.5;color:var(--ink2);max-width:680px;margin-top:24px}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:32px}
+.chips span{border:1px solid var(--line);background:#fff;border-radius:99px;padding:8px 16px;font-size:14px;font-weight:600;color:var(--ink2)}
+.chips span b{color:var(--ink);font-weight:700}
+.heroband{margin-top:56px;background:var(--tint);border-radius:36px 36px 0 0;padding:56px 24px 0;display:flex;gap:28px;justify-content:center;align-items:flex-start;overflow:hidden;height:560px}
+.heroband .dev{width:280px;flex:none}
+.heroband .dev:nth-child(2){margin-top:48px}
+.dev{position:relative;background:#12141a;border-radius:42px;padding:8px;box-shadow:0 24px 50px rgba(20,24,31,.18)}
+.scr{position:relative;width:100%;aspect-ratio:393/852;border-radius:34px;overflow:hidden;background:var(--warm)}
+.scr iframe{position:absolute;top:0;left:0;width:393px;height:852px;border:0;transform-origin:0 0}
+.dev.static iframe{pointer-events:none}
+section{max-width:1180px;margin:0 auto;padding:96px 32px 0;display:grid;grid-template-columns:200px minmax(0,740px);gap:24px 64px}
+section>.lab{font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--ink3);padding-top:8px;position:sticky;top:80px;align-self:start}
+section>.lab i{display:block;font-style:normal;color:var(--teal);font-size:28px;letter-spacing:0;margin-bottom:4px}
+h2{font-size:clamp(1.7rem,3.2vw,2.4rem);line-height:1.15;font-weight:800;letter-spacing:-.02em;margin-bottom:20px}
+p+p{margin-top:16px} ul{margin:14px 0 0 20px} li{margin:8px 0}
+.note{background:#fff;border:1px solid var(--line);border-left:4px solid var(--teal);border-radius:14px;padding:18px 22px;margin-top:24px;font-size:16px}
+.src{font-size:14px;color:var(--ink3);margin-top:16px}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}
+.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px}
+.card small{display:block;font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--ink3);margin-top:12px}
+.card h3{font-size:17px;line-height:1.35;font-weight:700}
+.card p{font-size:15px;line-height:1.55;color:var(--ink2);margin-top:2px}
+.wide{max-width:none;display:block;padding:96px 0 0}
+.stripwrap{margin-top:8px;background:var(--tint);padding:56px 0;}
+.strip{display:flex;gap:28px;overflow-x:auto;scroll-snap-type:x mandatory;padding:8px 32px 24px;}
+.strip figure{flex:none;width:268px;scroll-snap-align:start}
+.strip figcaption{margin-top:16px;font-size:14px;line-height:1.5;color:var(--ink2)}
+.strip figcaption b{display:block;color:var(--ink);font-size:15px;margin-bottom:2px}
+.stripwrap .hdr{max-width:1180px;margin:0 auto;padding:0 32px 24px}
+.try{background:var(--ink);color:#fff;margin-top:96px;padding:96px 32px;}
+.tryin{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) 420px;gap:64px;align-items:center}
+.try h2{color:#fff}.try p,.try li{color:#cfd6df}.try .eyebrow{color:#8fd3cb}
+.try .dev.big{width:100%;max-width:420px;margin:0 auto;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.try ol{margin:18px 0 0 20px}.try ol li{margin:10px 0}
+.btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.btns a{padding:13px 24px;border-radius:99px;background:var(--teal);color:#fff;text-decoration:none;font-weight:700;font-size:15px}
+.btns a.alt{background:transparent;color:var(--ink);border:1px solid #bdb5a9}
+.try .btns a.alt{color:#fff;border-color:#59636f}
+footer{max-width:1180px;margin:0 auto;padding:96px 32px 72px;color:var(--ink3);font-size:14px}
+@media(max-width:900px){section{grid-template-columns:1fr;gap:8px;padding:72px 24px 0}section>.lab{position:static}.tryin{grid-template-columns:1fr}.cards{grid-template-columns:1fr}.heroband .dev:nth-child(3){display:none}.hero{padding:56px 24px 0}.nav{padding:12px 20px}}
+</style></head><body>
+<nav class="nav"><a href="index.html">← All projects</a><div class="r"><a href="#try">Try the prototype</a><a href="anmeldung-prototype.html">Open full screen</a></div></nav>
+
+<header class="hero">
+ <div class="eyebrow">Case study · Mobile app concept</div>
+ <h1>Anmeldung<br>Assistant</h1>
+ <p class="lead">A guide for newcomers to Berlin: say what you need to sort out, then get the documents, appointment slots and a ready form draft for it.</p>
+ <div class="chips"><span><b>Role</b> UX/UI designer, solo</span><span><b>Time</b> October 2026</span><span><b>Tools</b> HTML/CSS/JS prototype</span><span><b>Type</b> Concept project</span></div>
+ <div class="heroband"><div class="dev static"><div class="scr"><iframe src="anmeldung-prototype.html?embed=1&screen=home" title="home screen" loading="lazy" tabindex="-1"></iframe></div></div><div class="dev static"><div class="scr"><iframe src="anmeldung-prototype.html?embed=1&screen=appt" title="appt screen" loading="lazy" tabindex="-1"></iframe></div></div><div class="dev static"><div class="scr"><iframe src="anmeldung-prototype.html?embed=1&screen=draft" title="draft screen" loading="lazy" tabindex="-1"></iframe></div></div></div>
+</header>
+
+<section><div class="lab"><i>01</i>Problem</div><div>
+ <h2>Registering in Berlin is confusing before it is difficult</h2>
+ <p>Anyone who moves to Berlin has to register their address (Anmeldung) within 14 days. The process is known for German terms, a key document most newcomers have never heard of, and appointments that are hard to find. As someone who studies and lives in Germany, I wanted to see how much of the stress a clear guide could remove.</p>
+ <div class="note"><b>Honest scope.</b> This is a concept. I did not run interviews or tests for it. The needs below are <b>assumptions</b> drawn from official sources, and I mark what I would verify with real newcomers. The prototype is not an official service. <b>The appointment slots and the saved personal data in the prototype are examples.</b></div>
+</div></section>
+
+<section><div class="lab"><i>02</i>Facts</div><div>
+ <h2>What the official sources say</h2>
+ <p>I read the official Berlin information first, so the content is based on facts, not memory:</p>
+ <ul>
+  <li>Registration is due <b>within 14 days</b> of moving in, but appointments are scarce, so in practice many people register later.</li>
+  <li>The <b>landlord confirmation</b> (Wohnungsgeberbestätigung) is required. A rental contract does not replace it. It lists the landlord, the move-in date, the address, the names of everyone registering and a signature.</li>
+  <li>You also need a valid <b>passport or ID</b> and the <b>registration form</b>. At a first registration in Berlin, marriage or birth certificates may be requested.</li>
+  <li>Registration is <b>in person</b>, not by post. You get the registration certificate (Meldebestätigung) at the appointment if everything is complete.</li>
+  <li>For a student <b>residence permit</b>, the immigration office (LEA) requires a personal visit with an appointment, and a typical document list includes passport, biometric photo, application form, enrolment proof, proof of address, funds and health insurance.</li>
+ </ul>
+ <p class="src">Sources: <a href="https://service.berlin.de/dienstleistung/351783/">service.berlin.de (registration)</a>, <a href="https://verwaltung.bund.de/leistungsverzeichnis/EN/leistung/99115005104001/herausgeber/BE-L100108_120686/region/110000000000">verwaltung.bund.de</a>, <a href="https://service.berlin.de/dienstleistung/305244/en">service.berlin.de (residence permit)</a>. Requirements can change by district, so check the current pages.</p>
+</div></section>
+
+<section><div class="lab"><i>03</i>Assumptions</div><div>
+ <h2>What I assumed about the user</h2>
+ <p>I designed for a typical newcomer: a student or young professional who speaks some German or none, moved in recently, and worries about missing a rule. This is a working assumption, not a researched persona.</p>
+ <div class="cards">
+  <div class="card"><h3>German terms are the biggest barrier</h3><p>Every German word has its English meaning next to it.</p><small>How I would test</small><p>Ask 5 newcomers to find "Wohnungsgeberbestätigung" in a mock-up.</p></div>
+  <div class="card"><h3>The landlord confirmation is found too late</h3><p>It is flagged "Key", with a ready message to send.</p><small>How I would test</small><p>Interview: when did you learn you need it?</p></div>
+  <div class="card"><h3>Filling in a German form is stressful</h3><p>A draft with suggestions from saved data, to copy onto the paper form.</p><small>How I would test</small><p>Watch 5 people fill the paper form with and without the draft.</p></div>
+  <div class="card"><h3>Appointments are the real bottleneck</h3><p>Open slots inside the app, with booking on the official site.</p><small>How I would test</small><p>Ask what people did when no slot was free.</p></div>
+  <div class="card"><h3>The 14-day deadline causes anxiety</h3><p>A counter that stays calm if the date has passed.</p><small>How I would test</small><p>Compare stress before and after in a short survey.</p></div>
+  <div class="card"><h3>People forget that offices want paper</h3><p>"Plan to print" notes on documents and appointment day.</p><small>How I would test</small><p>Ask who arrived without printed documents.</p></div>
+ </div>
+</div></section>
+
+<section class="wide"><div class="stripwrap">
+ <div class="hdr"><div class="eyebrow" style="margin-bottom:8px">04 · The design</div><h2 style="max-width:760px">Eight screens, one calm flow</h2></div>
+ <div class="strip"><figure><div class="dev static"><div class="scr"><iframe src="anmeldung-prototype.html?embed=1&screen=purpose" title="Your goal" loading="lazy" tabindex="-1"></iframe></div></div><figcaption><b>Your goal</b>What do you need to sort out? Everything adapts to the answer.</figcaption></figure><figure><div class="dev static"><div class="scr"><iframe src="anmeldung-prototype.html?embed=1&screen=welcome" title="Key date" loading="lazy" tabindex="-1"></iframe></div></div><figcaption><b>Key date</b>One date sets the clock: the 14-day deadline or when your visa ends.</figcaption></figure><figure><div class="dev static"><div class="scr"><iframe src="anmeldung-prototype.html?embed=1&screen=home" title="Four steps" loading="lazy" tabindex="-1"></iframe></div></div><figcaption><b>Four steps</b>The whole process on one screen, deadline always visible.</figcaption></figure><figure><div class="dev static"><div class="scr"><iframe src="anmeldung-prototype.html?embed=1&screen=docs" title="Documents" loading="lazy" tabindex="-1"></iframe></div></div><figcaption><b>Documents</b>German names under English ones, and a reminder to print.</figcaption></figure><figure><div class="dev static"><div class="scr"><iframe src="anmeldung-prototype.html?embed=1&screen=appt" title="Appointment" loading="lazy" tabindex="-1"></iframe></div></div><figcaption><b>Appointment</b>Open slots by office. Example data.</figcaption></figure><figure><div class="dev static"><div class="scr"><iframe src="anmeldung-prototype.html?embed=1&screen=form" title="Form draft" loading="lazy" tabindex="-1"></iframe></div></div><figcaption><b>Form draft</b>Saved data is offered as a suggestion, like autofill.</figcaption></figure><figure><div class="dev static"><div class="scr"><iframe src="anmeldung-prototype.html?embed=1&screen=draft&filled=1" title="Your draft" loading="lazy" tabindex="-1"></iframe></div></div><figcaption><b>Your draft</b>A clean list to copy onto the paper form, or print.</figcaption></figure><figure><div class="dev static"><div class="scr"><iframe src="anmeldung-prototype.html?embed=1&screen=day" title="Appointment day" loading="lazy" tabindex="-1"></iframe></div></div><figcaption><b>Appointment day</b>What to bring on paper, and what you get.</figcaption></figure></div>
+</div></section>
+
+<div class="try" id="try"><div class="tryin">
+ <div>
+  <div class="eyebrow">05 · Prototype</div>
+  <h2>Try it yourself</h2>
+  <p>The whole app is clickable. Everything runs in your browser and nothing is saved or sent.</p>
+  <ol><li>Choose a goal and a key date.</li><li>Tick documents and see the "Plan to print" note.</li><li>Pick an appointment slot (example data).</li><li>Tap "Autofill from saved data" in the form, then open the draft.</li></ol>
+  <div class="btns"><a href="anmeldung-prototype.html">Open full screen</a></div>
+ </div>
+ <div class="dev big"><div class="scr"><iframe src="anmeldung-prototype.html?embed=1&" title="Interactive prototype" loading="lazy" tabindex="-1"></iframe></div></div>
+</div></div>
+
+<section><div class="lab"><i>06</i>Decisions</div><div>
+ <h2>Design decisions</h2>
+ <ul>
+  <li><b>Ask for the goal first.</b> Documents, office, slots and form all depend on what you are registering for, so the app asks this before anything else.</li>
+  <li><b>Start with one date.</b> It is the only input needed to show the deadline, so the app is useful within seconds.</li>
+  <li><b>German and English together.</b> The German term stays visible because it is the word on the real form and at the office.</li>
+  <li><b>A ready message instead of advice.</b> "Ask your landlord" is vague. A copyable German message with the required items removes the hardest step.</li>
+  <li><b>Draft, not submission.</b> The form stays on paper at the office, so the app creates a draft to copy from and says nothing is sent anywhere. Suggestions come from saved data and are never filled without a tap.</li>
+  <li><b>Slots in the app.</b> Seeing open slots removes a trip through several websites. The booking itself still happens on the official site.</li>
+  <li><b>Paper reminders.</b> The office works with paper, so the app says what to print.</li>
+  <li><b>Calm about the deadline.</b> If the date has passed, the app says to book the earliest slot, instead of a red warning.</li>
+  <li><b>Accessible colors.</b> Dark teal for actions (white text 6.05:1), and every text pair checked against WCAG AA.</li>
+ </ul>
+</div></section>
+
+<section><div class="lab"><i>07</i>Next</div><div>
+ <h2>What I would do next</h2>
+ <ul>
+  <li>Interview 5 people who registered in the last year, and rewrite the assumptions with their answers.</li>
+  <li>Test the task "prepare for your appointment" and count where people get stuck.</li>
+  <li>Find out whether the booking systems offer open slots in a form an app may use. In this concept the slots are example data. A real product would need an official data source or partnership.</li>
+  <li>Review the content with someone who works at a Bürgeramt, since rules can differ.</li>
+  <li>Add more languages and more situations (a second home, changing district).</li>
+ </ul>
+ <div class="btns"><a href="anmeldung-prototype.html">Open the prototype</a><a class="alt" href="index.html">All projects</a></div>
+</div></section>
+
+<footer>Concept project, not an official service. Content based on public information from Berlin's administration. © Anna Khinchuk</footer>
+<script>
+function fit(){document.querySelectorAll('.scr').forEach(s=>{const f=s.querySelector('iframe');f.style.transform='scale('+(s.clientWidth/393)+')';});}
+addEventListener('resize',fit);addEventListener('load',fit);fit();
+</script>
+</body></html>

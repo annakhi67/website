@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Anmeldung Assistant — prototype</title>
+<style>
+:root{--bg:#f6f1ea;--surface:#fff;--ink:#101828;--ink2:#4a5565;--ink3:#6a7282;--line:#e6e0d8;--teal:#1b6e67;--teal-tint:#e3f1ef;--warn:#a34a05;--warn-tint:#fdf0e3;--ok:#008236;--ok-tint:#dcfce7}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:#d9d2c8;color:var(--ink);font-size:15px;line-height:22px;display:flex;align-items:center;justify-content:center}
+.phone{width:393px;height:852px;max-height:100vh;background:var(--bg);border-radius:48px;overflow:hidden;position:relative;box-shadow:0 30px 80px rgba(60,40,10,.3),0 0 0 8px #12141a;display:flex;flex-direction:column}
+body.embed{background:transparent}body.embed .phone{box-shadow:none;border-radius:0;max-height:none;width:100%;height:100vh}
+@media(max-width:430px){body{background:var(--bg)}.phone{width:100%;height:100vh;border-radius:0;box-shadow:none}}
+.status{height:44px;flex:none;display:flex;justify-content:space-between;align-items:center;padding:0 28px;font-weight:600;font-size:14px}
+.screen{flex:1;display:none;flex-direction:column;overflow-y:auto;padding:8px 20px 28px}
+.screen.on{display:flex}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.top{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.back{width:44px;height:44px;border-radius:50%;background:var(--surface);border:1px solid var(--line);font-size:20px}
+h1{font-size:30px;line-height:36px;font-weight:800;letter-spacing:-.5px}
+h2{font-size:22px;line-height:28px;font-weight:800;letter-spacing:-.3px}
+.sub{color:var(--ink2)}.small{font-size:13px;line-height:18px;color:var(--ink2)}
+.card{background:var(--surface);border-radius:20px;border:1px solid var(--line);padding:16px}
+.stack{display:flex;flex-direction:column;gap:12px}
+.btn{height:56px;border-radius:16px;background:var(--teal);color:#fff;font-weight:700;font-size:16px;width:100%}
+.btn.sec{background:var(--surface);color:var(--ink);border:1px solid #cfc8bd}
+.btn[disabled]{background:#e6e0d8;color:var(--ink2);cursor:not-allowed}
+.spacer{flex:1;min-height:16px}
+input[type=date],input[type=text],input[type=time]{width:100%;height:52px;border:1px solid #bdb5a9;border-radius:14px;padding:0 14px;font:inherit;background:#fff}
+label.l{display:block;font-weight:600;margin-bottom:6px}
+.deadline{background:var(--warn-tint);border-color:#f3d9bd}
+.deadline b{font-size:34px;line-height:40px;color:var(--warn);display:block}
+.step{display:flex;gap:14px;align-items:center;text-align:left;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px 16px}
+.step .n{width:36px;height:36px;border-radius:50%;background:var(--teal-tint);color:var(--teal);font-weight:800;display:flex;align-items:center;justify-content:center;flex:none}
+.step.done .n{background:var(--teal);color:#fff}
+.step .t{flex:1}.step .t b{display:block}.step .t span{font-size:13px;color:var(--ink2)}
+.chev{color:var(--ink3);font-size:20px}
+.progress{height:8px;background:#e6e0d8;border-radius:99px;overflow:hidden;margin-top:10px}.progress i{display:block;height:100%;background:var(--teal);border-radius:99px;transition:width .3s}
+.doc{display:flex;gap:14px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px 16px;width:100%;text-align:left}
+.doc input{width:26px;height:26px;accent-color:var(--teal);flex:none;margin-top:2px}
+.doc b{display:block}.doc .de{color:var(--ink3);font-size:13px}
+.tag{display:inline-block;font-size:12px;font-weight:700;border-radius:99px;padding:2px 10px;background:var(--warn-tint);color:var(--warn);margin-left:6px}
+.msg{background:#faf7f2;border:1px dashed #cfc8bd;border-radius:14px;padding:14px;font-size:14px;line-height:21px;white-space:pre-wrap}
+.seg{display:flex;background:#e6e0d8;border-radius:12px;padding:3px}.seg button{flex:1;height:40px;border-radius:10px;font-weight:600}.seg button[aria-pressed=true]{background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+ul.p{list-style:none}ul.p li{padding:8px 0 8px 28px;position:relative;border-bottom:1px solid var(--line)}ul.p li:last-child{border:0}ul.p li:before{content:"✓";position:absolute;left:0;color:var(--teal);font-weight:800}
+.field{width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 16px}
+.field .row{display:flex;justify-content:space-between;gap:8px}.field b{font-size:15px}.field .en{color:var(--ink2);font-size:13px}
+.field .more{display:none;margin-top:8px;padding-top:8px;border-top:1px solid var(--line);font-size:14px}.field.open .more{display:block}
+.toast{position:absolute;left:20px;right:20px;bottom:24px;background:var(--ink);color:#fff;border-radius:14px;padding:14px 16px;display:none;text-align:center;font-weight:600}.toast.show{display:block}
+.ok{background:var(--ok-tint);color:var(--ok);border-radius:99px;padding:3px 12px;font-weight:700;font-size:13px;display:inline-block}
+.big{width:84px;height:84px;border-radius:50%;background:var(--teal);color:#fff;font-size:44px;display:flex;align-items:center;justify-content:center;margin:12px auto}
+
+.opt{display:block;width:100%;text-align:left;background:var(--surface);border:2px solid var(--line);border-radius:20px;padding:16px}
+.opt[aria-pressed=true]{border-color:var(--teal);background:var(--teal-tint)}
+.opt b{display:block;font-size:17px}.opt span{color:var(--ink2);font-size:14px}
+.banner{background:var(--warn-tint);border:1px solid #f3d9bd;border-radius:16px;padding:12px 14px;font-size:14px;line-height:20px}
+.banner b{color:var(--warn)}
+.sample{display:inline-block;font-size:12px;font-weight:700;background:#e6e0d8;color:var(--ink2);border-radius:99px;padding:2px 10px}
+.day{font-weight:700;margin:14px 0 8px}
+.slots{display:flex;flex-wrap:wrap;gap:8px}
+.slot{height:44px;padding:0 14px;border-radius:12px;border:1px solid #bdb5a9;background:#fff;font-weight:600}
+.slot[aria-pressed=true]{background:var(--teal);color:#fff;border-color:var(--teal)}
+.loc{font-weight:700;margin:16px 0 2px}
+.fld{display:block}.fld label{display:block;font-weight:600;font-size:14px;margin-bottom:4px}.fld .de{font-weight:400;color:var(--ink3);font-size:12px}
+.fld input{height:48px}
+.sug{display:none;margin-top:6px;border:1px solid var(--teal);background:var(--teal-tint);color:var(--teal);border-radius:12px;padding:8px 12px;font-weight:700;font-size:14px;text-align:left;width:100%}
+.fld.sugon .sug{display:block}
+.draft{background:#fff;border:1px solid var(--line);border-radius:16px}
+.draft div{display:flex;justify-content:space-between;gap:12px;padding:10px 14px;border-bottom:1px solid var(--line);font-size:14px}
+.draft div:last-child{border:0}.draft span{color:var(--ink2)}.draft b{text-align:right}
+.draft .empty{color:var(--ink3);font-weight:400}
+@media print{body{background:#fff}.phone{box-shadow:none;height:auto;max-height:none}.btn,.back,.toast,.status,.banner{display:none!important}}
+</style></head><body>
+<div class="phone" id="phone">
+<div class="status"><span>9:41</span><span>●●● ▮</span></div>
+
+<section class="screen on" id="purpose">
+ <div class="spacer"></div>
+ <p class="small" style="font-weight:700;color:var(--teal);letter-spacing:.1em;text-transform:uppercase">Berlin paperwork assistant</p>
+ <h1 style="margin:8px 0 10px">What do you need to sort out?</h1>
+ <p class="sub">We adapt the documents, the appointment and the form to your goal.</p>
+ <div class="stack" style="margin-top:22px" id="purposes"></div>
+ <div class="spacer"></div>
+ <button class="btn" id="pnext" disabled>Continue</button>
+ <p class="small" style="text-align:center;margin-top:10px">Concept prototype · not an official service</p>
+</section>
+
+<section class="screen" id="welcome">
+ <div class="top"><button class="back" data-go="purpose" aria-label="Back">‹</button></div>
+ <h1 id="wtitle" style="margin:6px 0 10px"></h1>
+ <p class="sub" id="wsub"></p>
+ <div class="card stack" style="margin-top:20px">
+  <label class="l" for="move" id="mlabel"></label>
+  <input type="date" id="move">
+  <p class="small" id="moveHint"></p>
+ </div>
+ <div class="spacer"></div>
+ <button class="btn" id="start" disabled>Start</button>
+</section>
+
+<section class="screen" id="home">
+ <div class="top"><div style="flex:1"><p class="small" id="hgoal">Your goal</p><h2 id="htitle"></h2></div></div>
+ <div class="card deadline"><p class="small" style="color:var(--warn);font-weight:700" id="dlabel">Deadline</p><b id="days">14 days</b><p class="small" id="dline"></p></div>
+ <div class="progress" aria-hidden="true" style="margin:18px 0 6px"><i id="bar" style="width:0%"></i></div>
+ <p class="small" id="prog" style="margin-bottom:14px"></p>
+ <div class="stack">
+  <button class="step" data-go="docs" id="s1"><span class="n">1</span><span class="t"><b>Get your documents</b><span id="s1t"></span></span><span class="chev">›</span></button>
+  <button class="step" data-go="appt" id="s2"><span class="n">2</span><span class="t"><b>Book an appointment</b><span id="s2t"></span></span><span class="chev">›</span></button>
+  <button class="step" data-go="form" id="s3"><span class="n">3</span><span class="t"><b>Prepare your form draft</b><span id="s3t"></span></span><span class="chev">›</span></button>
+  <button class="step" data-go="day" id="s4"><span class="n">4</span><span class="t"><b>Appointment day</b><span>What to bring on paper</span></span><span class="chev">›</span></button>
+ </div>
+</section>
+
+<section class="screen" id="docs">
+ <div class="top"><button class="back" data-go="home" aria-label="Back">‹</button><h2>Documents</h2></div>
+ <div class="banner" style="margin-bottom:14px"><b>Plan to print.</b> Bring paper copies, not phone screens. Print your documents and the form in advance.</div>
+ <div class="stack" id="doclist"></div>
+ <div class="spacer"></div>
+ <button class="btn sec" data-go="home" style="margin-top:16px">Back to steps</button>
+</section>
+
+<section class="screen" id="landlord">
+ <div class="top"><button class="back" data-go="docs" aria-label="Back">‹</button><h2>Landlord confirmation</h2></div>
+ <p class="sub">Your landlord must confirm in writing that you moved in. It has to contain:</p>
+ <div class="card" style="margin:12px 0"><ul class="p"><li>Landlord's name and address (and the owner's, if different)</li><li>Your move-in date</li><li>The address of the flat</li><li>Names of everyone who registers</li><li>The landlord's signature</li></ul></div>
+ <p class="small" style="margin-bottom:8px;font-weight:700;color:var(--ink)">Message to your landlord</p>
+ <div class="seg" role="group" aria-label="Language" style="margin-bottom:10px"><button aria-pressed="true" id="lde">Deutsch</button><button aria-pressed="false" id="len">English</button></div>
+ <div class="msg" id="msg"></div>
+ <div class="spacer"></div>
+ <button class="btn" id="copy" style="margin-top:14px">Copy message</button>
+</section>
+
+<section class="screen" id="appt">
+ <div class="top"><button class="back" data-go="home" aria-label="Back">‹</button><h2>Appointment</h2></div>
+ <p class="sub" id="aoffice" style="margin-bottom:10px"></p>
+ <div class="banner"><span class="sample">Example data</span> <span id="aexp">These slots are examples. A real version would show open slots from the official booking system.</span></div>
+ <div id="slotlist"></div>
+ <div class="spacer"></div>
+ <p class="small" id="aselected" style="margin-top:14px"></p>
+ <a class="btn" id="aopen" href="https://service.berlin.de" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;text-decoration:none;margin-top:10px">Book on the official site ↗</a>
+ <button class="btn sec" id="asave" style="margin-top:10px" disabled>I booked this slot</button>
+</section>
+
+<section class="screen" id="form">
+ <div class="top"><button class="back" data-go="home" aria-label="Back">‹</button><h2>Form draft</h2></div>
+ <p class="sub" style="margin-bottom:12px" id="fsub"></p>
+ <button class="btn sec" id="autofill" style="height:48px;margin-bottom:12px">Autofill from saved data</button>
+ <p class="small" style="margin:-4px 0 12px">Sample data from this phone. Real values are only filled after you allow it.</p>
+ <div class="stack" id="fields"></div>
+ <div class="spacer"></div>
+ <button class="btn" data-go="draft" style="margin-top:16px">See draft</button>
+</section>
+
+<section class="screen" id="draft">
+ <div class="top"><button class="back" data-go="form" aria-label="Back">‹</button><h2>Your draft</h2></div>
+ <div class="banner" style="margin-bottom:12px"><b>Not submitted.</b> This is a draft. Copy it onto the official paper form or print it as a reference for the office.</div>
+ <div class="draft" id="draftlist"></div>
+ <div class="spacer"></div>
+ <button class="btn" id="dcopy" style="margin-top:16px">Copy draft</button>
+ <button class="btn sec" id="dprint" style="margin-top:10px">Print draft</button>
+</section>
+
+<section class="screen" id="day">
+ <div class="top"><button class="back" data-go="home" aria-label="Back">‹</button><h2>Appointment day</h2></div>
+ <div class="banner" style="margin-bottom:12px"><b>Bring paper.</b> Print the form draft, your documents and your booking confirmation. Bring your passport or ID card as the original.</div>
+ <div class="card"><p style="font-weight:700;margin-bottom:6px">Bring</p><ul class="p" id="bring"></ul></div>
+ <div class="card" style="margin-top:12px"><p style="font-weight:700;margin-bottom:6px">After the check</p><p class="sub" id="after"></p></div>
+ <div class="spacer"></div>
+ <button class="btn" id="done" style="margin-top:16px">I'm done</button>
+</section>
+
+<section class="screen" id="finish">
+ <div class="spacer"></div><div class="big">✓</div>
+ <h1 style="text-align:center">All done!</h1>
+ <p class="sub" style="text-align:center;margin:10px 0 0" id="fin"></p>
+ <div class="spacer"></div>
+ <button class="btn sec" data-go="home">Back to steps</button>
+</section>
+<div class="toast" id="toast" role="status"></div>
+</div>
+<script>
+const $=id=>document.getElementById(id), Q=s=>[...document.querySelectorAll(s)];
+const params=new URLSearchParams(location.search);
+if(params.has("embed"))document.body.classList.add("embed");
+const SAVED={fam:"Example",giv:"Maria",dob:"14.03.2002",pob:"Kazan, Russia",nat:"russisch",mar:"ledig",addr:"Musterstraße 1, 10115 Berlin",move:"",prev:"Ulitsa Primernaya 5, Kazan, Russia",pass:"P1234567",uni:"University of Europe for Applied Sciences"};
+const P={
+ anmeldung:{name:"Register my address",office:"Bürgeramt (citizens' office)",goal:"Anmeldung",
+  q:"Register your address in Berlin, step by step.",sub:"In Berlin you must register within 14 days of moving in.",label:"When did you move in?",
+  dl:{kind:"plus",days:14,label:"Official deadline"},url:"https://service.berlin.de",
+  docs:[["Passport or ID card","Reisepass / Personalausweis · bring the original, it must be valid"],["Landlord confirmation","Wohnungsgeberbestätigung · printed and signed. A rental contract does not replace it","key"],["Registration form","Anmeldeformular · print your draft and copy it onto the official form"],["Marriage or birth certificate","Heirats- / Geburtsurkunde · may be asked for at a first registration in Berlin, bring it if you have it"]],
+  after:"If the documents are complete you receive your registration certificate (Meldebestätigung) at the appointment.",fin:"Keep your Meldebestätigung safe. You will need it for a bank account, a phone contract and your residence permit.",
+  fsub:"Fields from the registration form, in German with an English meaning. Fill them once, then copy them onto the paper form.",
+  fields:[["fam","Familienname","Surname","family-name"],["giv","Vornamen","Given names","given-name"],["dob","Geburtsdatum","Date of birth (DD.MM.YYYY)","bday"],["pob","Geburtsort","Place of birth","off"],["nat","Staatsangehörigkeit","Nationality","off"],["mar","Familienstand","Marital status, e.g. ledig, verheiratet","off"],["addr","Anschrift der neuen Wohnung","Your new address in Berlin","street-address"],["move","Einzugsdatum","Move-in date","off"],["prev","Bisherige Wohnung","Previous address","off"]],
+  places:["Bürgeramt Pankow","Bürgeramt Neukölln","Bürgeramt Mitte"]},
+ permit:{name:"Residence permit (student)",office:"Landesamt für Einwanderung (LEA)",goal:"Residence permit",
+  q:"Get your student residence permit.",sub:"You apply in person at the immigration office, so plan early.",label:"When does your visa or permitted stay end?",
+  dl:{kind:"date",label:"Apply before"},url:"https://www.berlin.de/einwanderung/en/services/appointments/",
+  docs:[["Passport","Reisepass · original, valid"],["Biometric photo","Biometrisches Foto · 35 × 45 mm, recent"],["Application form","Antrag auf Erteilung eines Aufenthaltstitels · print your draft and copy it onto the official form"],["Proof of enrolment","Immatrikulationsbescheinigung · printed from your student portal"],["Proof of address in Berlin","Meldebescheinigung, or rental contract with landlord confirmation"],["Proof of funds and health insurance","Finanzierungsnachweis, Krankenversicherung · ask your university which are needed"]],
+  after:"The office checks your documents and decides. Processing can take weeks. Ask what the fee is and how to pay: bring cash to be safe.",fin:"Keep copies of everything you handed in. The office will contact you about the next step.",
+  fsub:"Typical fields from the application form, in German with an English meaning. Fill them once, then copy them onto the paper form.",
+  fields:[["fam","Familienname","Surname","family-name"],["giv","Vornamen","Given names","given-name"],["dob","Geburtsdatum","Date of birth (DD.MM.YYYY)","bday"],["pob","Geburtsort","Place of birth","off"],["nat","Staatsangehörigkeit","Nationality","off"],["pass","Passnummer","Passport number","off"],["addr","Anschrift in Berlin","Your address in Berlin","street-address"],["uni","Hochschule","University","off"]],
+  places:["Landesamt für Einwanderung"]}
+};
+let goal=null,keyDate=null,appt=null,pick=null,lang="de";const vals={};
+function go(id){Q(".screen").forEach(s=>s.classList.toggle("on",s.id===id));$(id).scrollTop=0;({home:updateHome,docs:renderDocs,appt:renderSlots,form:renderForm,draft:renderDraft,day:renderDay})[id]&&({home:updateHome,docs:renderDocs,appt:renderSlots,form:renderForm,draft:renderDraft,day:renderDay})[id]()}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-go]");if(b)go(b.dataset.go)});
+function toast(t){const e=$("toast");e.textContent=t;e.classList.add("show");clearTimeout(e._);e._=setTimeout(()=>e.classList.remove("show"),2200)}
+// purpose
+$("purposes").innerHTML=Object.entries(P).map(([k,p])=>`<button class="opt" data-p="${k}" aria-pressed="false"><b>${p.name}</b><span>${p.office}</span></button>`).join("");
+Q(".opt").forEach(b=>b.onclick=()=>{goal=b.dataset.p;Q(".opt").forEach(x=>x.setAttribute("aria-pressed",x===b));$("pnext").disabled=false});
+$("pnext").onclick=()=>{const p=P[goal];$("wtitle").textContent=p.q;$("wsub").textContent=p.sub;$("mlabel").textContent=p.label;$("moveHint").textContent="Pick the date from your documents.";$("move").value="";keyDate=null;$("start").disabled=true;go("welcome")};
+function deadline(){const d=new Date(keyDate);if(P[goal].dl.kind==="plus")d.setDate(d.getDate()+P[goal].dl.days);const t=new Date();t.setHours(0,0,0,0);return Math.round((d-t)/864e5)}
+$("move").addEventListener("change",()=>{keyDate=$("move").value?new Date($("move").value):null;$("start").disabled=!keyDate;if(keyDate){const d=deadline();$("moveHint").textContent=d>=0?`That leaves ${d} day${d===1?"":"s"}.`:"That date has passed. Book the earliest slot you can find."}});
+$("start").onclick=()=>{vals.move=P[goal].dl.kind==="plus"?keyDate.toLocaleDateString("de-DE"):"";go("home")};
+const checked=()=>Q("[data-doc]").filter(c=>c.checked).length;
+const docState={};
+function updateHome(){const p=P[goal];$("hgoal").textContent="Your goal";$("htitle").textContent=p.goal;$("dlabel").textContent=p.dl.label;
+ const n=Object.values(docState).filter(Boolean).length,total=p.docs.length;
+ $("s1t").textContent=n+" of "+total+" ready";$("s2t").textContent=appt?"Booked: "+appt:"Not booked yet";$("s3t").textContent=Object.keys(vals).filter(k=>vals[k]).length+" fields in your draft";
+ $("s1").classList.toggle("done",n===total);$("s2").classList.toggle("done",!!appt);
+ $("prog").textContent=n+" of "+total+" documents · "+(appt?"appointment booked":"no appointment yet");$("bar").style.width=Math.round((n/total*50)+(appt?50:0))+"%";
+ if(keyDate){const d=deadline();$("days").textContent=d>=0?`${d} day${d===1?"":"s"} left`:"Date passed";$("dline").textContent=d>=0?"Appointments are often hard to get, so book early.":"Don't wait for a perfect moment: book the earliest slot you can find."}}
+function renderDocs(){const p=P[goal];$("doclist").innerHTML=p.docs.map((d,i)=>`<label class="doc"><input type="checkbox" data-doc="${i}" ${docState[goal+i]?"checked":""}><span><b>${d[0]}${d[2]?'<span class="tag">Key</span>':""}</b><span class="de">${d[1]}</span></span></label>`).join("")+(goal==="anmeldung"?'<button class="small" data-go="landlord" style="text-align:left;color:var(--teal);font-weight:700;padding:0 4px;font-size:14px">Don\'t have the landlord confirmation? Ask your landlord →</button>':"");
+ Q("[data-doc]").forEach(c=>c.onchange=()=>{docState[goal+c.dataset.doc]=c.checked;updateHome()})}
+// landlord
+const M={de:`Guten Tag,\n\nfür meine Anmeldung beim Bürgeramt benötige ich die Wohnungsgeberbestätigung. Bitte bestätigen Sie schriftlich und mit Unterschrift:\n- Name und Anschrift des Wohnungsgebers\n- mein Einzugsdatum\n- die Anschrift der Wohnung\n- die Namen aller einziehenden Personen\n\nVielen Dank!\nMit freundlichen Grüßen`,en:`Hello,\n\nFor my registration at the Bürgeramt I need the landlord confirmation (Wohnungsgeberbestätigung). Please confirm in writing, with your signature:\n- the landlord's name and address\n- my move-in date\n- the address of the flat\n- the names of everyone moving in\n\nThank you!\nKind regards`};
+function setLang(l){lang=l;$("msg").textContent=M[l];$("lde").setAttribute("aria-pressed",l==="de");$("len").setAttribute("aria-pressed",l==="en")}
+$("lde").onclick=()=>setLang("de");$("len").onclick=()=>setLang("en");setLang("de");
+async function copyText(t,ok){try{await navigator.clipboard.writeText(t);toast(ok)}catch(e){toast("Select the text and copy it")}}
+$("copy").onclick=()=>copyText(M[lang],"Message copied");
+// appointment slots (example data)
+function slotsFor(place,seed){const out=[];const base=new Date();let n=0;for(let d=2;d<20&&n<3;d++){const x=new Date(base);x.setDate(base.getDate()+d);if(x.getDay()===0||x.getDay()===6)continue;if((d+seed)%3===0)continue;n++;const times=[["08:20","09:40","11:15"],["10:05","13:30"],["09:00","14:10","15:45"]][(d+seed)%3];out.push([x,times])}return out}
+function renderSlots(){const p=P[goal];$("aoffice").textContent="Office: "+p.office;$("aopen").href=p.url;
+ $("slotlist").innerHTML=p.places.map((pl,i)=>`<p class="loc">${pl}</p>`+slotsFor(pl,i+1).map(([d,ts])=>`<p class="small" style="margin:8px 0 6px;font-weight:600">${d.toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"short"})}</p><div class="slots">${ts.map(t=>`<button class="slot" aria-pressed="${pick&&pick.k===pl+d.toDateString()+t}" data-k="${pl+d.toDateString()+t}" data-l="${d.toLocaleDateString("en-GB",{day:"numeric",month:"short"})} · ${t} · ${pl}">${t}</button>`).join("")}</div>`).join("")).join("");
+ Q(".slot").forEach(b=>b.onclick=()=>{pick={k:b.dataset.k,l:b.dataset.l};renderSlots();});
+ $("aselected").textContent=pick?"Selected: "+pick.l:"Pick a slot, then finish booking on the official site.";$("asave").disabled=!pick}
+$("asave").onclick=()=>{appt=pick.l;toast("Appointment saved");go("home")};
+// form
+function renderForm(){const p=P[goal];$("fsub").textContent=p.fsub;
+ $("fields").innerHTML=p.fields.map(f=>`<div class="fld" data-k="${f[0]}"><label for="f_${f[0]}">${f[1]} <span class="de">· ${f[2]}</span></label><input type="text" id="f_${f[0]}" name="${f[0]}" ${f[3]!=="off"?`autocomplete="${f[3]}"`:'autocomplete="off"'} value="${vals[f[0]]||""}"><button class="sug" type="button">Use “${SAVED[f[0]]||""}” from saved data</button></div>`).join("");
+ Q(".fld").forEach(w=>{const k=w.dataset.k,i=w.querySelector("input"),s=w.querySelector(".sug");const upd=()=>{w.classList.toggle("sugon",!i.value&&!!SAVED[k])};
+  i.oninput=()=>{vals[k]=i.value;upd()};i.onfocus=upd;i.onblur=()=>setTimeout(()=>w.classList.remove("sugon"),150);
+  s.onmousedown=e=>e.preventDefault();s.onclick=()=>{i.value=SAVED[k];vals[k]=SAVED[k];w.classList.remove("sugon")};});}
+$("autofill").onclick=()=>{P[goal].fields.forEach(f=>{if(f[0]==="move"&&vals.move)return;if(SAVED[f[0]])vals[f[0]]=SAVED[f[0]]});renderForm();toast("Filled from saved data. Check every field.")};
+function draftRows(){return P[goal].fields.map(f=>[f[1],f[2],vals[f[0]]||""])}
+function renderDraft(){$("draftlist").innerHTML=draftRows().map(r=>`<div><span>${r[0]}</span><b class="${r[2]?"":"empty"}">${r[2]||"not filled"}</b></div>`).join("")}
+$("dcopy").onclick=()=>copyText(P[goal].goal+" – draft\n"+draftRows().map(r=>r[0]+": "+(r[2]||"")).join("\n"),"Draft copied");
+$("dprint").onclick=()=>window.print();
+// day
+function renderDay(){const p=P[goal];$("bring").innerHTML=p.docs.map((d,i)=>`<li>${d[0]}${docState[goal+i]?' <span class="ok">ready</span>':""}</li>`).join("")+"<li>Form draft, printed</li><li>Booking confirmation, printed</li>";$("after").textContent=p.after}
+$("done").onclick=()=>{$("fin").textContent=P[goal].fin;go("finish")};
+// embeds
+if(params.get("screen")){goal=params.get("goal")||"anmeldung";const d=new Date();d.setDate(d.getDate()-5);keyDate=d;vals.move=d.toLocaleDateString("de-DE");
+ docState[goal+"0"]=true;docState[goal+"1"]=true;if(["draft"].includes(params.get("screen"))||params.has("filled")){P[goal].fields.forEach(f=>{if(f[0]!=="move"&&SAVED[f[0]])vals[f[0]]=SAVED[f[0]]})}
+ if(params.get("screen")==="purpose"){go("purpose")}else{if(params.get("screen")==="welcome"){$("pnext").onclick()}
+ go(params.get("screen"));if(params.get("screen")==="welcome"){$("move").valueAsDate=d;$("move").dispatchEvent(new Event("change"))}}}
+</script></body></html>
