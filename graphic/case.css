@@ -1,0 +1,54 @@
+/* Shared layout for graphic design case studies. Each page sets its own colors and fonts in :root. */
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{font-family:var(--body,"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif);background:var(--bg);color:var(--ink);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;padding:0 0 40px}
+a{color:inherit}img,svg{display:block;max-width:100%}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px;border-radius:6px}
+.bar{max-width:1320px;margin:0 auto;padding:26px 32px;display:flex;justify-content:space-between;align-items:center;color:var(--barInk,#fff);font-weight:700;gap:16px;flex-wrap:wrap}
+.bar .tags{display:flex;gap:10px;flex-wrap:wrap}.bar .tags span{background:rgba(255,255,255,.18);padding:6px 16px;border-radius:99px;font-size:15px}
+.bar .r{display:flex;gap:18px;align-items:center;font-size:15px}.bar .r a{text-decoration:none}
+.sheet{max-width:1320px;margin:0 auto;background:var(--paper,#fff);border-radius:40px;padding:28px;overflow:hidden}
+.mini{display:flex;align-items:center;justify-content:space-between;background:var(--soft);border-radius:20px;padding:10px 12px 10px 18px;font-size:14px;font-weight:700}
+.mini nav{display:flex;gap:22px;color:var(--ink2)}.mini nav a{text-decoration:none}.mini nav a:hover{color:var(--ink)}
+.mini .go{background:var(--ink);color:#fff;padding:8px 20px;border-radius:99px;text-decoration:none}
+.hero{display:grid;grid-template-columns:1fr 1.15fr;gap:40px;align-items:center;padding:56px 24px 48px}
+h1{font-family:var(--head);font-size:clamp(2.8rem,6vw,5.2rem);line-height:.98;font-weight:var(--headW,800);letter-spacing:-.035em}
+h1 em{font-style:normal;color:var(--acc)}
+.lead{font-size:clamp(1.05rem,1.8vw,1.3rem);color:var(--ink2);margin-top:24px;max-width:540px;line-height:1.5}
+.meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}.meta span{background:var(--soft);padding:8px 16px;border-radius:99px;font-size:14px;font-weight:600;color:var(--ink2)}.meta b{color:var(--ink)}
+.heroArt{border-radius:32px;overflow:hidden;background:var(--soft)}.heroArt svg{width:100%;height:auto}
+.panel{border-radius:36px;padding:56px 44px;margin-top:24px;position:relative}
+.panel.soft{background:var(--soft)}.panel.dark{background:var(--dark,var(--ink));color:#fff}.panel.acc{background:var(--acc);color:var(--accInk,#fff)}
+.label{font-size:14px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px;color:var(--labelC,var(--acc))}
+.panel.dark .label,.panel.acc .label{color:inherit;opacity:.8}
+h2{font-family:var(--head);font-size:clamp(2rem,4.4vw,3.4rem);line-height:1.04;font-weight:var(--headW,800);letter-spacing:-.03em;max-width:860px}
+h3{font-family:var(--head);letter-spacing:-.01em}
+.sub{margin-top:16px;font-size:18px;line-height:1.6;max-width:720px;color:var(--ink2)}
+.panel.dark .sub,.panel.acc .sub{color:inherit;opacity:.9}
+.note{background:#fff;color:var(--ink);border-radius:22px;padding:20px 24px;margin-top:28px;font-size:16px;max-width:860px;line-height:1.55;border:2px solid var(--line)}
+.note b{background:var(--hl,rgba(0,0,0,.08));padding:0 6px;border-radius:6px}
+.cols{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:36px}
+.cols.c2{grid-template-columns:1fr 1fr}.cols.c4{grid-template-columns:repeat(4,1fr)}
+.box{background:#fff;color:var(--ink);border-radius:26px;padding:24px}
+.box h3{font-size:20px;line-height:1.25;font-weight:800}.box p{font-size:15px;color:var(--ink2);margin-top:8px;line-height:1.5}
+.box .n{width:38px;height:38px;border-radius:50%;background:var(--acc);color:var(--accInk,#fff);display:inline-flex;align-items:center;justify-content:center;font-weight:900;margin-bottom:12px}
+.kw{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}.kw span{background:#fff;color:var(--ink);border-radius:99px;padding:8px 18px;font-weight:700;font-size:15px}
+.kw span.no{text-decoration:line-through;opacity:.55}
+.art{border-radius:24px;overflow:hidden;background:#fff}.art svg{width:100%;height:auto}
+.cap{font-size:14px;color:var(--ink2);margin-top:12px;line-height:1.45}.cap b{color:var(--ink);display:block;font-size:16px}
+.panel.dark .cap,.panel.dark .cap b{color:#fff}.panel.dark .cap{opacity:.85}
+.gal{display:grid;grid-template-columns:repeat(12,1fr);gap:18px;margin-top:36px}
+.gal figure{grid-column:span 6}.gal figure.w{grid-column:span 12}.gal figure.t{grid-column:span 4}.gal figure.l{grid-column:span 8}
+.sw{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:32px}
+.sw div{border-radius:22px;padding:90px 18px 16px;font-size:14px;font-weight:600;line-height:1.35;border:1px solid rgba(0,0,0,.06)}
+.sw b{display:block;font-size:16px}
+.type{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:32px}
+.type .box .big{font-size:88px;line-height:1;margin:8px 0 14px}
+.next{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px;list-style:none}
+.next li{background:#fff;color:var(--ink);border-radius:22px;padding:14px 22px;font-weight:600;max-width:420px;font-size:16px;line-height:1.4}
+.pn{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:24px}
+.pn a{display:block;background:var(--soft);border-radius:28px;padding:26px 30px;text-decoration:none;transition:transform .2s}
+.pn a:hover{transform:translateY(-3px)}.pn small{display:block;color:var(--ink2);font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase}.pn b{font-family:var(--head);font-size:26px;letter-spacing:-.02em}
+.pn a.r{text-align:right}
+.foot{max-width:1320px;margin:0 auto;padding:28px 32px 0;display:flex;justify-content:space-between;color:var(--barInk,#fff);font-weight:600;font-size:15px;gap:16px;flex-wrap:wrap}
+.foot a{text-decoration:none}
+@media(max-width:1000px){.hero{grid-template-columns:1fr}.cols,.cols.c2,.cols.c4,.type,.pn{grid-template-columns:1fr}.gal figure,.gal figure.t,.gal figure.l{grid-column:span 12}.panel{padding:40px 22px}.mini nav{display:none}.sheet{border-radius:28px;padding:14px}.hero{padding:36px 8px}.bar{padding:20px}.type .box .big{font-size:64px}}
