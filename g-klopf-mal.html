@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Klopf mal. Heatwave neighbour campaign — Anna Khinchuk</title>
+<meta name="description" content="Concept project: a public campaign that asks Berliners to knock on their older neighbours' doors during heatwaves. Posters, billboard, door hanger, stairwell notice and social.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="g-case.css">
+<style>
+:root{--bg:#FF3B1F;--barInk:#FFF4E6;--paper:#fff;--soft:#FFF4E6;--ink:#140A06;--ink2:#5e4a42;--acc:#FF3B1F;--accInk:#fff;--dark:#1A3CFF;--line:#f0dccb;--hl:#FFD3C7;--head:"Archivo",sans-serif;--headW:900}
+h1,h2,h3{font-stretch:62%;text-transform:uppercase;letter-spacing:0}
+h1{font-size:clamp(3.2rem,8vw,7rem);line-height:.88}h2{font-size:clamp(2.4rem,5.4vw,4.4rem);line-height:.92}
+.box h3{font-size:28px;line-height:1}
+.bar .tags span{background:rgba(255,255,255,.22)}
+.shot{border-radius:24px;overflow:hidden;background:#ddd}.shot img{width:100%;height:auto;display:block}
+.gal .shot img{aspect-ratio:3/2;object-fit:cover}
+.heroShot{border-radius:32px;overflow:hidden}.heroShot img{width:100%;height:auto;display:block}
+.knock{display:inline-block;width:1em;height:1em;vertical-align:-.1em}
+.journey{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:32px;counter-reset:j}
+.journey div{background:#fff;color:var(--ink);border-radius:22px;padding:20px;position:relative}.journey b{display:block;font:900 26px/1 Archivo;font-stretch:62%;text-transform:uppercase;margin:8px 0 6px}
+.journey small{font-weight:800;color:var(--acc);font-size:13px;letter-spacing:.08em;text-transform:uppercase}.journey p{font-size:15px;color:var(--ink2);line-height:1.45}
+.duo{display:grid;grid-template-columns:1fr 1.2fr;gap:24px;margin-top:32px;align-items:center}
+.flat{display:flex;gap:18px;justify-content:center;align-items:flex-end;background:var(--soft);border-radius:24px;padding:32px}
+.flat img{border-radius:14px;box-shadow:0 18px 40px rgba(0,0,0,.18);height:auto}
+@media(max-width:1000px){.journey,.duo{grid-template-columns:1fr}.flat{flex-wrap:wrap}}
+</style></head><body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="kn" viewBox="0 0 100 100"><rect x="18" y="8" width="44" height="84" rx="3" fill="none" stroke="currentColor" stroke-width="8"/><circle cx="50" cy="52" r="4.5" fill="currentColor"/><path d="M72 38q8 12 0 24M82 30q14 20 0 40" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/></symbol></svg>
+
+<div class="bar"><div class="tags"><span>#campaign</span><span>#public interest</span><span>#print & social</span><span>#concept</span></div><div class="r"><a href="graphic.html">← All projects</a><span>Anna Khinchuk</span></div></div>
+<div class="sheet">
+ <div class="mini"><span>Klopf mal. · Heatwave campaign</span><nav><a href="#brief">Brief</a><a href="#idea">Idea</a><a href="#system">System</a><a href="#applications">Applications</a></nav><a class="go" href="#applications">See it applied</a></div>
+
+ <header class="hero">
+  <div>
+   <h1>Klopf mal. <svg class="knock" style="color:var(--acc)"><use href="#kn"/></svg></h1>
+   <p class="lead">A concept campaign for Berlin summers: during a heatwave, knock on the door of an older neighbour who lives alone and ask if everything is okay. It turns a public health message into one small, concrete action that anyone in the building can do today.</p>
+   <div class="meta"><span><b>Role</b> Concept and design</span><span><b>Year</b> 2026</span><span><b>Type</b> Self-initiated concept</span><span><b>Tools</b> Figma</span></div>
+  </div>
+  <div class="heroShot" id="cover"><img src="g-klopf-column.webp" alt="Green Berlin advertising column on a sunny street, wrapped with red and cream Klopf mal campaign posters" width="1800" height="1200"></div>
+ </header>
+
+ <div class="panel soft" id="brief">
+  <div class="label">01 · Brief</div>
+  <h2>Heat advice is everywhere. Action is not.</h2>
+  <p class="sub">Most heat campaigns tell people what to do for themselves: drink water, stay inside, close the curtains. The people most at risk are often older and living alone, and they are least likely to see a poster or a post. I asked a different question: who is already close to them every day? Their neighbours.</p>
+  <div class="cols">
+   <div class="box"><span class="n">1</span><h3>One action</h3><p>Not a list of ten tips. One thing to do: knock and ask.</p></div>
+   <div class="box"><span class="n">2</span><h3>In the building</h3><p>The campaign has to reach the stairwell and the front door, not only the street.</p></div>
+   <div class="box"><span class="n">3</span><h3>No stigma</h3><p>Nobody wants to be "the vulnerable one". The tone is neighbourly, not medical.</p></div>
+  </div>
+  <div class="note"><b>Honest scope.</b> Klopf mal. is a concept project. It is not run by or affiliated with any public authority, and it has not been tested with real residents. The temperature and the name "Frau Kaya" are examples. In a real campaign, the health advice would be checked with medical experts. All photos are 3D renders I built.</div>
+ </div>
+
+ <div class="panel dark" id="idea">
+  <div class="label">02 · Idea</div>
+  <h2>From the street to the door in four steps</h2>
+  <p class="sub">The campaign follows the path a message has to travel: public space creates awareness, the building turns it into a plan, the door turns it into contact.</p>
+  <div class="journey">
+   <div><small>Street</small><b>Notice</b><p>Billboards and columns ask a personal question: how hot is it upstairs?</p></div>
+   <div><small>Phone</small><b>Share</b><p>Stories make knocking visible and a little social: "Heute geklopft?"</p></div>
+   <div><small>Stairwell</small><b>Commit</b><p>A notice with tear-off tabs: each neighbour takes one flat to check on.</p></div>
+   <div><small>Door</small><b>Knock</b><p>A door hanger for when nobody answers, with a way to reach the neighbour.</p></div>
+  </div>
+ </div>
+
+ <div class="panel soft" id="system" style="background:#fff;border:2px solid var(--line)">
+  <div class="label">03 · System</div>
+  <h2>Heat red, cool blue, a loud condensed voice</h2>
+  <div class="sw">
+   <div style="background:#FF3B1F;color:#fff"><b>Heat</b>#FF3B1F<br>awareness</div>
+   <div style="background:#1A3CFF;color:#fff"><b>Cool</b>#1A3CFF<br>how to help</div>
+   <div style="background:#FFF4E6"><b>Paper</b>#FFF4E6<br>warm, friendly</div>
+   <div style="background:#140A06;color:#fff"><b>Ink</b>#140A06<br>text</div>
+  </div>
+  <div class="type">
+   <div class="box" style="background:var(--soft)"><div style="font-weight:800;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2)">Headlines</div><div class="big" style="font-family:Archivo;font-weight:900;font-stretch:62%;text-transform:uppercase">Klopf mal.</div><p>Archivo Black, condensed. Big enough to read from a tram, narrow enough to fit long German words.</p></div>
+   <div class="box" style="background:var(--soft)"><div style="font-weight:800;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2)">Copy</div><div class="big" style="font-family:Inter;font-weight:700;font-size:34px;line-height:1.25;letter-spacing:-.01em">„Alles gut bei Ihnen?"</div><p>Inter Bold for body copy. Sentences are short and use the polite "Sie" on the door, the friendly "du" on the street.</p></div>
+  </div>
+  <div class="box" style="background:var(--soft);margin-top:18px;display:flex;gap:24px;align-items:center"><svg style="width:96px;height:96px;flex:none;color:var(--acc)"><use href="#kn"/></svg><div><h3>The knock symbol</h3><p>A door and two sound waves. It works without words, so it also speaks to neighbours who do not read German well.</p></div></div>
+  <figure style="margin-top:32px"><div class="shot"><img src="g-klopf-posters.webp" alt="Three campaign posters: red Klopf mal with a thermometer, cream Alles gut bei Ihnen, blue So hilfst du in 2 Minuten" loading="lazy" width="2400" height="1132"></div><p class="cap"><b>Poster set</b>Red asks the question, cream gives the words to say, blue explains the three steps.</p></figure>
+ </div>
+
+ <div class="panel" id="applications" style="background:var(--ink);color:#fff">
+  <div class="label" style="color:var(--acc)">04 · Applications</div>
+  <h2>Where the message lives</h2>
+  <div class="gal">
+   <figure class="w"><div class="shot"><img src="g-klopf-billboard.webp" alt="Large red billboard on a weathered Berlin firewall reading 34 Grad draussen. Und bei Frau Kaya im 4. Stock? Klopf mal." loading="lazy" width="1800" height="1200"></div><p class="cap" style="color:#fff"><b style="color:#fff">Billboard on a firewall</b>A name and a floor make the question personal. You look up at the building, and think of your own.</p></figure>
+   <figure><div class="shot"><img src="g-klopf-notice.webp" alt="Stairwell notice Hitzewelle im Haus with tear-off tabs, three of them already taken" loading="lazy" width="1800" height="1200"></div><p class="cap" style="color:#fff"><b style="color:#fff">Stairwell notice</b>Each tab says "Ich klopfe bei: ___". Missing tabs show others are already helping.</p></figure>
+   <figure><div class="shot"><img src="g-klopf-door.webp" alt="Red door hanger reading Alles gut bei Ihnen? hanging on a brass handle of a wooden apartment door" loading="lazy" width="1800" height="1200"></div><p class="cap" style="color:#fff"><b style="color:#fff">Door hanger</b>For when nobody opens. It says who knocked and where they live, so the neighbour can knock back.</p></figure>
+  </div>
+  <div class="duo">
+   <div class="flat" style="background:#1A3CFF"><img src="g-klopf-story.webp" alt="Instagram story asking Heute geklopft? with a poll by floor" width="240" height="427" loading="lazy"><img src="g-klopf-hanger.webp" alt="Flat door hanger design" width="150" height="390" loading="lazy" style="box-shadow:none"></div>
+   <div><h3 style="font-size:34px;line-height:1">Social and print, one voice</h3><p class="sub" style="color:#fff;opacity:.85">The story asks for the floor, never the name, so sharing stays private. The door hanger has a blank line for the flat number, so it works in any building.</p></div>
+  </div>
+ </div>
+
+ <div class="panel soft">
+  <div class="label">05 · Reflection</div>
+  <h2>What I would test next</h2>
+  <ul class="next">
+   <li>Talk to older residents: does a knock feel caring or intrusive? Adjust the copy.</li>
+   <li>Test the tear-off notice in two buildings and see if tabs actually get taken.</li>
+   <li>Translate the door hanger into Turkish, Arabic and Russian, the knock symbol stays.</li>
+   <li>Partner with housing associations to put notices in stairwells before the first heatwave.</li>
+  </ul>
+ </div>
+
+ <div class="pn"><a href="g-rauschen.html"><small>← Previous</small><b>RAUSCHEN festival</b></a><a class="r" href="g-fenster.html"><small>Next project →</small><b>FENSTER Kunsthalle</b></a></div>
+</div>
+<div class="foot"><span><a href="graphic.html">Anna Khinchuk · Graphic design</a></span><span>Klopf mal. is a concept campaign, not affiliated with any authority.</span><span>2026</span></div>
+</body></html>

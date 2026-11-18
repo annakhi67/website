@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FENSTER Kunsthalle identity — Anna Khinchuk</title>
+<meta name="description" content="Concept project: a flexible identity for a fictional contemporary art space in Berlin. The logo is a window that changes shape with every exhibition.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;600;800;900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="g-case.css">
+<style>
+:root{--bg:#1A0D0A;--paper:#fff;--soft:#EFEAE2;--ink:#1A0D0A;--ink2:#5d504a;--acc:#FF5A1F;--accInk:#1A0D0A;--dark:#1A0D0A;--line:#e3dcd1;--hl:#FFC6A8;--head:"Schibsted Grotesk",sans-serif;--headW:900}
+h1{letter-spacing:-.045em}
+.shot{border-radius:24px;overflow:hidden;background:#ddd}.shot img{width:100%;height:auto;display:block}.gal .shot img{aspect-ratio:3/2;object-fit:cover}
+.heroShot{border-radius:32px;overflow:hidden}.heroShot img{width:100%;height:auto;display:block}
+/* live window demo */
+.demo{display:grid;grid-template-columns:1.1fr 1fr;gap:28px;margin-top:36px;align-items:center}
+.stageW{background:#EFEAE2;border-radius:28px;aspect-ratio:1/1;display:flex;flex-direction:column;justify-content:space-between;padding:7%;color:#1A0D0A;transition:background .6s}
+.stageW .top{display:flex;justify-content:space-between;align-items:center;font:900 clamp(28px,4.4vw,58px)/.8 "Schibsted Grotesk";letter-spacing:-.04em}
+.glyph{width:.8em;height:.8em;background:currentColor;transition:all .6s cubic-bezier(.7,0,.2,1)}
+.win{align-self:center;width:84%;height:52%;background:url(g-fenster-art-hitze.webp) center/cover;transition:all .7s cubic-bezier(.7,0,.2,1)}
+.stageW .t{font:900 clamp(34px,5.6vw,76px)/.85 "Schibsted Grotesk";letter-spacing:-.05em}
+.shape-arch .win,.shape-arch .glyph{border-radius:50% 50% 0 0/45% 45% 0 0}
+.shape-circle .win{width:52%;border-radius:50%}.shape-circle .glyph{border-radius:50%}
+.shape-slit .win{height:20%;border-radius:0}.shape-slit .glyph{height:.3em;border-radius:0}
+.shape-square .win{width:52%;border-radius:0}.shape-square .glyph{border-radius:0}
+.pick{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.pick button{font:700 15px/1 Inter,sans-serif;border:2px solid #fff;background:transparent;color:#fff;border-radius:99px;padding:11px 18px;cursor:pointer}
+.pick button[aria-pressed="true"]{background:#fff;color:#1A0D0A}
+.shapes{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:32px}
+.shapes .box{text-align:left}.shapes i{display:block;height:110px;background:var(--c);margin-bottom:14px}
+.logo{background:#fff;border-radius:26px;padding:40px;margin-top:32px;display:grid;grid-template-columns:1.4fr 1fr;gap:28px;align-items:center}
+.lg{display:flex;align-items:center;gap:.18em;font:900 clamp(44px,8vw,110px)/.8 "Schibsted Grotesk";letter-spacing:-.045em;position:relative;padding:24px 0}
+.lg i{width:.72em;height:.72em;background:var(--acc);border-radius:50% 50% 0 0/45% 45% 0 0;flex:none;outline:2px dashed #1A0D0A55;outline-offset:6px}
+.lg:after{content:"";position:absolute;left:0;right:0;top:24px;bottom:24px;border-top:1px dashed #1A0D0A55;border-bottom:1px dashed #1A0D0A55}
+@media(max-width:1000px){.demo,.logo{grid-template-columns:1fr}.shapes{grid-template-columns:1fr 1fr}}
+@media(prefers-reduced-motion:reduce){.win,.glyph,.stageW{transition:none}}
+</style></head><body>
+
+<div class="bar"><div class="tags"><span>#brand identity</span><span>#flexible system</span><span>#wayfinding</span><span>#concept</span></div><div class="r"><a href="graphic.html">← All projects</a><span>Anna Khinchuk</span></div></div>
+<div class="sheet">
+ <div class="mini"><span>FENSTER · Kunsthalle identity</span><nav><a href="#brief">Brief</a><a href="#idea">Idea</a><a href="#system">System</a><a href="#applications">Applications</a></nav><a class="go" href="#applications">See it applied</a></div>
+
+ <header class="hero">
+  <div>
+   <h1>A gallery whose logo is a <em>window</em></h1>
+   <p class="lead">FENSTER is a fictional space for contemporary art in Berlin. Its exhibitions change every few months, so I built an identity that changes with them: each show gets its own window shape, and that shape frames the art on every poster, ticket, sign and screen.</p>
+   <div class="meta"><span><b>Role</b> Graphic designer, solo</span><span><b>Year</b> 2026</span><span><b>Type</b> Self-initiated concept</span><span><b>Tools</b> Figma</span></div>
+  </div>
+  <div class="heroShot" id="cover"><img src="g-fenster-wall.webp" alt="Six FENSTER exhibition posters pasted on a concrete wall in afternoon light, with a window shadow falling across them" width="1800" height="1200"></div>
+ </header>
+
+ <div class="panel soft" id="brief">
+  <div class="label">01 · Brief</div>
+  <h2>Three exhibitions a year, one recognisable voice</h2>
+  <p class="sub">A small art space has to compete with every other poster on the street. Each exhibition has its own artists and its own mood, but people should still recognise the house from across the road. Most institutions solve this with a fixed logo in a corner. I wanted the brand to live inside the artwork instead.</p>
+  <div class="cols">
+   <div class="box"><span class="n">1</span><h3>Flexible</h3><p>Every show can look different, from loud group shows to quiet photography.</p></div>
+   <div class="box"><span class="n">2</span><h3>Recognisable</h3><p>One constant element that people spot on a wall, a ticket or a screen.</p></div>
+   <div class="box"><span class="n">3</span><h3>Cheap to run</h3><p>A small team should make a new poster set in a day, from one template.</p></div>
+  </div>
+  <div class="note"><b>Honest scope.</b> FENSTER, its exhibitions, dates and prices are invented for this concept project. All artwork shown inside the posters was generated by me for the mockups. All photos are 3D renders I built, not photos of a real place.</div>
+ </div>
+
+ <div class="panel dark" id="idea">
+  <div class="label">02 · Idea</div>
+  <h2>The frame stays. What you see through it changes.</h2>
+  <p class="sub">A window is the oldest way to frame a view. FENSTER keeps a heavy grotesk wordmark and a window slot next to it. Each exhibition picks a shape for that slot: an arch, a circle, a slit or a square. The same shape crops the key image, marks the hall on the signs and sits on the ticket. Try it:</p>
+  <div class="demo">
+   <div class="stageW shape-arch" id="stage" aria-live="polite">
+    <div class="top"><span>FENSTER</span><i class="glyph"></i></div>
+    <div class="win" role="img" aria-label="Exhibition image cropped by the window shape"></div>
+    <div class="t" id="stT">Hitze</div>
+   </div>
+   <div>
+    <h3 style="font-size:26px">One template, four shapes</h3>
+    <p class="sub">Switching the shape changes the whole poster without a redesign. That is what makes the system cheap: the team only picks a shape, an image and a colour.</p>
+    <div class="pick" role="group" aria-label="Window shape">
+     <button aria-pressed="true" data-s="arch" data-t="Hitze" data-a="hitze" data-c="#EFEAE2">Arch · Hitze</button>
+     <button aria-pressed="false" data-s="circle" data-t="Weich" data-a="soft2" data-c="#E6E1F5">Circle · Weich</button>
+     <button aria-pressed="false" data-s="slit" data-t="Leise" data-a="leise" data-c="#DDE2EA">Slit · Leise</button>
+     <button aria-pressed="false" data-s="square" data-t="Archiv" data-a="hitze" data-c="#F2F0EA">Square · Archive</button>
+    </div>
+   </div>
+  </div>
+ </div>
+
+ <div class="panel soft" id="system" style="background:#fff;border:2px solid var(--line)">
+  <div class="label">03 · System</div>
+  <h2>Wordmark, window, colour, grid</h2>
+  <div class="logo">
+   <div class="lg">FENSTER<i></i></div>
+   <div><h3 style="font-size:22px">Logo construction</h3><p class="sub" style="font-size:16px">The window slot is as tall as the cap height and sits one letter-space after the R. It is the only part of the logo that changes. In black and white use, the slot stays solid black.</p></div>
+  </div>
+  <div class="shapes">
+   <div class="box" style="background:var(--soft)"><i style="--c:#FF5A1F;border-radius:50% 50% 0 0/60% 60% 0 0"></i><h3>Arch</h3><p>Group shows. Open, generous, many voices.</p></div>
+   <div class="box" style="background:var(--soft)"><i style="--c:#9C86FF;border-radius:50%;width:110px"></i><h3>Circle</h3><p>Sculpture and objects. Something to walk around.</p></div>
+   <div class="box" style="background:var(--soft)"><i style="--c:#4E6FB5;height:36px;margin:37px 0 51px"></i><h3>Slit</h3><p>Photography and film. A wide, narrow view.</p></div>
+   <div class="box" style="background:var(--soft)"><i style="--c:#1A0D0A;width:110px"></i><h3>Square</h3><p>Archive, talks, the house itself.</p></div>
+  </div>
+  <div class="sw">
+   <div style="background:#EFEAE2"><b>Paper</b>#EFEAE2<br>base for all print</div>
+   <div style="background:#1A0D0A;color:#fff"><b>Ink</b>#1A0D0A<br>text, 15.9:1 on Paper</div>
+   <div style="background:#FF5A1F"><b>Hitze</b>#FF5A1F<br>show colour 2027</div>
+   <div style="background:#9C86FF"><b>Weich</b>#9C86FF<br>show colour 2027</div>
+   <div style="background:#4E6FB5;color:#fff"><b>Leise</b>#4E6FB5<br>show colour 2028</div>
+  </div>
+  <div class="type">
+   <div class="box" style="background:var(--soft)"><div class="lbl" style="font-weight:800;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2)">Display</div><div class="big" style="font-family:'Schibsted Grotesk';font-weight:900;letter-spacing:-.05em">Hitze</div><p>Schibsted Grotesk Black, tight tracking. Exhibition titles are always one word and set as large as the format allows.</p></div>
+   <div class="box" style="background:var(--soft)"><div class="lbl" style="font-weight:800;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2)">Text</div><div class="big" style="font-family:'Schibsted Grotesk';font-weight:600;font-size:44px;line-height:1.1">Di–So 11–20<br>Do bis 22 Uhr</div><p>Schibsted Grotesk SemiBold for dates, hours and directions. One family keeps production simple.</p></div>
+  </div>
+  <figure style="margin-top:32px"><div class="shot"><img src="g-fenster-posters.webp" alt="Three flat FENSTER posters: Hitze with an arch window, Weich with a circle, Leise with a slit" loading="lazy" width="2400" height="1132"></div><p class="cap"><b>Poster template</b>Wordmark and info row at the top, window in the middle, one-word title at the bottom. Only shape, image and paper colour change.</p></figure>
+ </div>
+
+ <div class="panel dark" id="applications">
+  <div class="label">04 · Applications</div>
+  <h2>From the street to the hall</h2>
+  <p class="sub">I rendered every touchpoint in 3D to check how the system holds up in light, at a distance and at small sizes.</p>
+  <div class="gal">
+   <figure><div class="shot"><img src="g-fenster-city.webp" alt="FENSTER Hitze poster glowing in a digital city light box on a wet street at night" loading="lazy" width="1800" height="1200"></div><p class="cap"><b>City light boxes</b>At night the window shape is the first thing you read, before any text.</p></figure>
+   <figure><div class="shot"><img src="g-fenster-tote.webp" alt="Canvas tote bag with the four FENSTER window shapes and wordmark hanging on a warm plaster wall" loading="lazy" width="1800" height="1200"></div><p class="cap"><b>Tote bag</b>All four shapes together become the house pattern for the shop.</p></figure>
+   <figure><div class="shot"><img src="g-fenster-flat.webp" alt="Three FENSTER tickets, a black membership card and a poster lying on a table" loading="lazy" width="1800" height="1200"></div><p class="cap"><b>Tickets and membership card</b>Each ticket carries its show’s window, so a stack of tickets reads as a year of visits.</p></figure>
+   <figure><div class="shot"><img src="g-fenster-hall.webp" alt="Gallery corridor with a large orange arch and the number 1 painted on the wall next to a list of directions" loading="lazy" width="1800" height="1200"></div><p class="cap"><b>Wayfinding</b>Halls are coded by shape and colour, not only by number. Arrows and words stay black for contrast.</p></figure>
+   <figure class="w"><div class="shot"><img src="g-fenster-laptop.webp" alt="Laptop on a wooden desk showing the FENSTER website with the current exhibition Hitze" loading="lazy" width="1800" height="1200"></div><p class="cap"><b>Website</b>The homepage is the current poster, made interactive: the window, the title, what is next, and the four things visitors ask first.</p></figure>
+  </div>
+ </div>
+
+ <div class="panel soft">
+  <div class="label">05 · Reflection</div>
+  <h2>What I would check next</h2>
+  <ul class="next">
+   <li>Test the shapes with people on the street: can they tell FENSTER posters apart from other galleries after one glance?</li>
+   <li>Write rules for artworks that fight the crop, like tall portraits inside the slit.</li>
+   <li>Build the template in Figma with variables, so a non-designer can make a poster set.</li>
+   <li>Add motion rules for screens: how the window opens and closes between shows.</li>
+  </ul>
+ </div>
+
+ <div class="pn"><a href="graphic.html#work"><small>← Back</small><b>All graphic work</b></a><a class="r" href="g-rauschen.html"><small>Next project →</small><b>RAUSCHEN festival</b></a></div>
+</div>
+<div class="foot"><span><a href="graphic.html">Anna Khinchuk · Graphic design</a></span><span>FENSTER is a fictional institution created for this concept project.</span><span>2026</span></div>
+<script>
+const st=document.getElementById('stage'),bs=document.querySelectorAll('.pick button');
+bs.forEach(b=>b.onclick=()=>{bs.forEach(x=>x.setAttribute('aria-pressed',x===b));st.className='stageW shape-'+b.dataset.s;st.style.background=b.dataset.c;document.getElementById('stT').textContent=b.dataset.t;st.querySelector('.win').style.backgroundImage='url(g-fenster-art-'+b.dataset.a+'.webp)'});
+</script>
+</body></html>

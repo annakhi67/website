@@ -109,13 +109,14 @@ dialog .cap{padding:16px 22px;color:#fff;background:#111;font-size:15px}
 .rv{opacity:0;transform:translateY(24px);transition:opacity .8s,transform .8s cubic-bezier(.2,.7,.2,1)}.rv.in{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.marquee div{animation:none}.card:hover .cover{transform:none}}
 @media(max-width:900px){.grid{grid-template-columns:1fr}.card.wide .cover{aspect-ratio:16/10}.heroRow{grid-template-columns:1fr}.portrait{justify-self:start}.arch{grid-template-columns:1fr 1fr}.about{grid-template-columns:1fr;gap:48px}.foot{grid-template-columns:1fr}.links a:not(.cv){display:none}.lang{margin-left:4px}.wrap{padding:0 20px}.info{flex-direction:column}.tags{justify-content:flex-start}.exp .row{grid-template-columns:1fr 90px}.exp .role{grid-column:1}.hero{padding-top:120px}.sec{padding-top:88px}}
-</style></head><body>
+</style><style>.pfs{display:inline-flex;gap:4px;background:rgba(21,23,28,.07);border-radius:99px;padding:3px}.pfs a{padding:6px 14px;border-radius:99px;text-decoration:none;font-size:14px;font-weight:700;color:var(--muted)}.pfs a[aria-current="page"]{background:var(--accent,#ec802b);color:#fff}.pfs a:hover:not([aria-current]){color:var(--ink)}@media(max-width:900px){.pfs a{padding:6px 10px;font-size:13px}}</style>
+</head><body>
 <header class="nav" id="nav"><div class="wrap"><a class="logo" href="#top"><i></i>Anna K.</a>
  <nav class="links" aria-label="Main"><a href="#work">Work</a><a href="#archive">More</a><a href="#about">About</a><a href="#contact">Contact</a><a class="cv" href="Anna_Khinchuk_Resume.pdf" target="_blank" rel="noopener">Resume ↗</a><div class="lang" role="group" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="de" aria-pressed="false">DE</button></div></nav></div></header>
 
 <main id="top">
 <section class="hero"><div class="wrap">
- <div class="meta rv"><span><i class="live"></i> <span>Open to internships and working-student roles</span></span><span>Berlin, Germany</span><span id="clock" aria-label="Local time in Berlin"></span></div>
+ <div class="meta rv"><span><i class="live"></i> <span>Open to internships and working-student roles</span></span><span>Berlin, Germany</span><span id="clock" aria-label="Local time in Berlin"></span><nav class="pfs" aria-label="Portfolios"><a href="index.html" aria-current="page">UX/UI</a><a href="graphic.html">Graphic</a><a href="product.html">Product</a></nav></div>
  <h1 class="rv">Anna<br>Khinchuk<span>.</span></h1>
  <div class="heroRow rv">
   <p>I'm a <b>UX/UI designer</b> and design student in Berlin. I design mobile apps and web products, build design systems, and care about clear flows and <b>accessible color</b>.</p>
